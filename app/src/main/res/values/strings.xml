@@ -1,12 +1,18 @@
 <resources>
     <string name="app_name">I-spy</string>
 
-    <string name="slave_mode_button_text">Esclave</string>
-    <string name="master_mode_button_text">Maître</string>
+    <string name="slave">Esclave</string>
+    <string name="master">Maître</string>
 
-    <string name="register_slave_login_hint">Identifiant</string>
-    <string name="register_slave_password_hint">Mot de passe</string>
-    <string name="register_slave_button_text">Enregistrer</string>
+    <string name="login">Identifiant</string>
+    <string name="email">Email</string>
+    <string name="password">Mot de passe</string>
+    <string name="save">Enregistrer</string>
+    <string name="connection">Connexion</string>
 
     <string name="message_internet_connection_error">Connexion internet inexistante</string>
+    <string name="choose_mode_activity_label">Mode d\'utilisation de ce téléphone</string>
+    <string name="register_slave_activity_label">Enregistrer l\'esclave</string>
+    <string name="register_master_activity_label">Connexion</string>
+    <string name="title_activity_list_slaves">Listes des esclaves</string>
 </resources>

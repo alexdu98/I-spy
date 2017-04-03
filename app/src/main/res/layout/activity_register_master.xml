@@ -4,35 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.um.asn.i_spy.RegisterSlaveActivity">
+    tools:context="com.um.asn.i_spy.RegisterMasterActivity">
 
     <EditText
-        android:id="@+id/register_slave_login"
+        android:id="@+id/register_master_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/login"
         android:inputType="textPersonName"
-        android:layout_above="@+id/register_slave_password"
+        android:layout_above="@+id/register_master_password"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="11dp" />
 
     <EditText
-        android:id="@+id/register_slave_password"
+        android:id="@+id/register_master_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/password"
         android:inputType="textPassword"
         android:layout_centerVertical="true"
-        android:layout_alignStart="@+id/register_slave_login" />
+        android:layout_alignStart="@+id/register_master_login" />
 
     <Button
-        android:id="@+id/register_slave_button"
+        android:id="@+id/register_master_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/save"
-        android:layout_below="@+id/register_slave_password"
+        android:text="@string/connection"
+        android:layout_below="@+id/register_master_password"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>

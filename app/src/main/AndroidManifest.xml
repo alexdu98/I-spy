@@ -12,14 +12,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ChooseModeActivity">
+        <activity
+            android:name=".ChooseModeActivity"
+            android:label="@string/choose_mode_activity_label">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegisterSlaveActivity" />
+        <activity
+            android:name=".RegisterSlaveActivity"
+            android:label="@string/register_slave_activity_label" />
+        <activity
+            android:name=".RegisterMasterActivity"
+            android:label="@string/register_master_activity_label" />
+        <activity
+            android:name=".ListSlavesActivity"
+            android:label="@string/title_activity_list_slaves"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
