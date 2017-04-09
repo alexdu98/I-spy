@@ -22,9 +22,25 @@ public class RegisterSlaveActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
                 NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
                 if (networkInfo != null && networkInfo.isConnected()) {
+
+                    /* Creation de l'url pour atteindre le serveur REST, a changer par calyxe.fr */
+                    String url = "http://192.168.1.11:80/ispy-rest-service.php/phone/";
+
+                    /* Objet JSON test pour l'envoi dans la BDD */
+                    String input = "{\"login\":\"mylogin\"," +
+                            "\"password\":\"mypassword\"," +
+                            "\"phone_number\":\"myphonenumber\"," +
+                            "\"phone_model\":\"myphonemodel\"}";
+
+                    /* Creation d'un objet HttpPostTask et execution de la methode
+                     * doInBackground */
+                    new HttpPostTask().execute(new Object[]{url, input});
+
                     Toast.makeText(RegisterSlaveActivity.this, "Ca marche !", Toast.LENGTH_LONG).show();
+
                 } else {
                     Toast.makeText(RegisterSlaveActivity.this, R.string.message_internet_connection_error, Toast.LENGTH_LONG).show();
                 }
