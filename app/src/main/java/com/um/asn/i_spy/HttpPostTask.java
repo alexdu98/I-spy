@@ -10,6 +10,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import javax.net.ssl.HttpsURLConnection;
+
 /**
  * Created by Vincent on 09/04/2017.
  */
@@ -25,7 +27,7 @@ public class HttpPostTask extends AsyncTask {
             /* Recuperation de l'url et de l'objet json a envoyer en POST
              * L'objet json est sous forme de String */
             URL url = new URL((String)params[0]);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
 
             /* Time out pour permettre l'interaction avec le serveur REST */
             conn.setReadTimeout(10000);
@@ -34,16 +36,16 @@ public class HttpPostTask extends AsyncTask {
             /* Activation de la recuperation d'un InputStream et OutputStream
             * a partir du serveur */
             conn.setDoInput(true);
-            conn.setDoOutput(true);
-            conn.setRequestMethod("POST");
+            //conn.setDoOutput(true);
+            conn.setRequestMethod("GET");
 
             /* Objet json sous forme de String */
             String input = (String)params[1];
-            OutputStream os = conn.getOutputStream();
+            //OutputStream os = conn.getOutputStream();
 
             /* Ecriture dans l'entree standard du serveur REST */
-            os.write(input.getBytes());
-            os.flush();
+//            os.write(input.getBytes());
+//            os.flush();
 
             /* Code reponse du serveur http */
             switch (conn.getResponseCode()) {
@@ -60,8 +62,8 @@ public class HttpPostTask extends AsyncTask {
                     break;
 
                 default :
-                    throw new RuntimeException("Failed : HTTP error code : "
-                            + conn.getResponseCode());
+//                    throw new RuntimeException("Failed : HTTP error code : "
+//                            + conn.getResponseCode());
             }
 
             /* Lecture de la sortie standard du serveur http */

@@ -5,6 +5,7 @@
     <string name="master">Maître</string>
 
     <string name="login">Identifiant</string>
+    <string name="phone_number">Numéro de téléphone</string>
     <string name="email">Email</string>
     <string name="password">Mot de passe</string>
     <string name="save">Enregistrer</string>
