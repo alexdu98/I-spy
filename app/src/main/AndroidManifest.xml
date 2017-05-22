@@ -24,16 +24,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".RegisterOrConnectActivity"
+            android:label="@string/register_or_connect_activity_label"/>
+
         <activity
             android:name=".RegisterSlaveActivity"
             android:label="@string/register_slave_activity_label" />
+
         <activity
             android:name=".RegisterMasterActivity"
             android:label="@string/register_master_activity_label" />
+
         <activity
             android:name=".ListSlavesActivity"
             android:label="@string/title_activity_list_slaves"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <activity android:name=".UserSignInActivity"
+            android:label="@string/user_login_activity_label"/>
     </application>
 
 </manifest>

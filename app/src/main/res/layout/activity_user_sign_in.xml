@@ -1,38 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.um.asn.i_spy.RegisterMasterActivity">
+    android:layout_width="match_parent" android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/register_master_login"
+        android:id="@+id/user_sign_in_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/email"
         android:inputType="textPersonName"
-        android:layout_above="@+id/register_master_password"
+        android:layout_above="@+id/user_sign_in_password"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="11dp" />
 
     <EditText
-        android:id="@+id/register_master_password"
+        android:id="@+id/user_sign_in_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/password"
         android:inputType="textPassword"
         android:layout_centerVertical="true"
-        android:layout_alignStart="@+id/register_master_login" />
+        android:layout_alignStart="@+id/user_sign_in_login" />
 
     <Button
-        android:id="@+id/register_master_button"
+        android:id="@+id/user_sign_in_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/register_master_password"
+        android:layout_below="@+id/user_sign_in_password"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:text="@string/registration" />
+        android:text="@string/connection" />
 </RelativeLayout>

@@ -27,7 +27,7 @@ public class ChooseModeActivity extends AppCompatActivity {
         masterModeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ChooseModeActivity.this, RegisterMasterActivity.class);
+                Intent intent = new Intent(ChooseModeActivity.this, RegisterOrConnectActivity.class);
                 startActivity(intent);
             }
         });

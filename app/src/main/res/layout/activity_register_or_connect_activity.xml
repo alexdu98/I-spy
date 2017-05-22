@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/choose_connect_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:text="@string/connection"
+        android:layout_above="@+id/choose_register_button"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/choose_register_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:text="@string/registration"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/choose_connect_button"
+        android:layout_marginBottom="217dp" />
+
+</RelativeLayout>
