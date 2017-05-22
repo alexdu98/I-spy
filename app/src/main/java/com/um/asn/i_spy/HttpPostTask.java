@@ -22,6 +22,8 @@ public class HttpPostTask extends AsyncTask {
     @Override
     protected Object doInBackground(Object[] params) {
 
+        String insertedId = "";
+
         try {
 
             /* Recuperation de l'url et de l'objet json a envoyer en POST
@@ -36,16 +38,16 @@ public class HttpPostTask extends AsyncTask {
             /* Activation de la recuperation d'un InputStream et OutputStream
             * a partir du serveur */
             conn.setDoInput(true);
-            //conn.setDoOutput(true);
-            conn.setRequestMethod("GET");
+            conn.setDoOutput(true);
+            conn.setRequestMethod("POST");
 
             /* Objet json sous forme de String */
             String input = (String)params[1];
-            //OutputStream os = conn.getOutputStream();
+            OutputStream os = conn.getOutputStream();
 
             /* Ecriture dans l'entree standard du serveur REST */
-//            os.write(input.getBytes());
-//            os.flush();
+            os.write(input.getBytes());
+            os.flush();
 
             /* Code reponse du serveur http */
             switch (conn.getResponseCode()) {
@@ -62,8 +64,8 @@ public class HttpPostTask extends AsyncTask {
                     break;
 
                 default :
-//                    throw new RuntimeException("Failed : HTTP error code : "
-//                            + conn.getResponseCode());
+                    System.out.println("Failed : HTTP error code : "
+                            + conn.getResponseCode());
             }
 
             /* Lecture de la sortie standard du serveur http */
@@ -87,6 +89,6 @@ public class HttpPostTask extends AsyncTask {
 
         }
 
-        return null;
+        return insertedId;
     }
 }
