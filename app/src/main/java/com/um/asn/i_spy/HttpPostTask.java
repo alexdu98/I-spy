@@ -2,6 +2,8 @@ package com.um.asn.i_spy;
 
 import android.os.AsyncTask;
 
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -22,7 +24,7 @@ public class HttpPostTask extends AsyncTask {
     @Override
     protected Object doInBackground(Object[] params) {
 
-        String insertedId = "";
+        String replyFromServer = "";
 
         try {
 
@@ -51,10 +53,9 @@ public class HttpPostTask extends AsyncTask {
 
             /* Code reponse du serveur http */
             switch (conn.getResponseCode()) {
-                case HttpURLConnection.HTTP_CREATED :
-                    System.out.println("Http request completed !");
-                    break;
 
+                // En cas de reussite
+                case HttpURLConnection.HTTP_CREATED :
                 case HttpURLConnection.HTTP_OK :
                     System.out.println("Http request completed !");
                     break;
@@ -70,12 +71,13 @@ public class HttpPostTask extends AsyncTask {
 
             /* Lecture de la sortie standard du serveur http */
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
             String output;
             System.out.println("Output from Server .... \n");
             while ((output = br.readLine()) != null) {
                 System.out.println(output);
+                replyFromServer += output;
             }
+
 
             conn.disconnect();
 
@@ -89,6 +91,6 @@ public class HttpPostTask extends AsyncTask {
 
         }
 
-        return insertedId;
+        return replyFromServer;
     }
 }
