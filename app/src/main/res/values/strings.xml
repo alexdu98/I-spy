@@ -4,10 +4,14 @@
     <string name="slave">Esclave</string>
     <string name="master">Maître</string>
 
+    <string name="success">Succès</string>
+    <string name="error">Erreur</string>
+
     <string name="login">Identifiant</string>
-    <string name="phone_number">Numéro de téléphone</string>
+    <string name="phone_number">Numéro du téléphone</string>
     <string name="email">Email</string>
     <string name="password">Mot de passe</string>
+    <string name="choose_password">Choisissez un mot de passe</string>
     <string name="save">Enregistrer</string>
     <string name="connection">Connexion</string>
     <string name="registration">Inscription</string>

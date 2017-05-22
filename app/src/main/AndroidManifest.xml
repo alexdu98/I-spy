@@ -43,6 +43,21 @@
 
         <activity android:name=".UserSignInActivity"
             android:label="@string/user_login_activity_label"/>
+
+        <service
+            android:name=".SlaveService"
+            android:enabled="true"
+            android:exported="true"></service>
+
+        <receiver
+            android:enabled="true"
+            android:name=".BootReceiver"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
