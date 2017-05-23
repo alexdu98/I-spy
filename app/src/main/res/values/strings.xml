@@ -16,8 +16,15 @@
     <string name="connection">Connexion</string>
     <string name="registration">Inscription</string>
 
+    <!-- USER MESSAGES -->
     <string name="message_register_master_error">L\'inscription a échoué, veuillez réessayer !</string>
+    <string name="message_sign_in_master_failed">Connexion échouée. Mauvais identifiant ou mot de passe.</string>
     <string name="message_internet_connection_error">Connexion internet inexistante</string>
+    <string name="message_missing_user_info">Informations utilisateur introuvables. Veuillez vous enregistrer d\'abord !</string>
+    <string name="message_missing_mandatory_fields">Veuillez remplir tous les champs obligatoires !</string>
+    <string name="message_internal_server_error">Le serveur a rencontré une erreur. Veuillez réessayer l\'opération.</string>
+
+    <!-- TITLES AND LABELS -->
     <string name="register_or_connect_activity_label">Connexion/Inscription</string>
     <string name="choose_mode_activity_label">Mode d\'utilisation de ce téléphone</string>
     <string name="register_slave_activity_label">Enregistrer l\'esclave</string>

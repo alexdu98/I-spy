@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".RegisterOrConnectActivity"
+        <activity android:name=".RegisterOrSignInMasterActivity"
             android:label="@string/register_or_connect_activity_label"/>
 
         <activity
@@ -41,7 +41,7 @@
             android:label="@string/title_activity_list_slaves"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
-        <activity android:name=".UserSignInActivity"
+        <activity android:name=".SignInMasterActivity"
             android:label="@string/user_login_activity_label"/>
 
         <service

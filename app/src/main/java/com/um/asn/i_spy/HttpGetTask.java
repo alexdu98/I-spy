@@ -22,10 +22,12 @@ public class HttpGetTask extends AsyncTask {
     @Override
     protected Object doInBackground(Object[] params) {
 
+        String replyFromServer = "";
+
         try {
 
             /* Recuperation de l'url contenant le chemin de la ressource a retourner */
-            URL url = new URL((String)params[0]);
+            URL url = new URL((String) params[0]);
             HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
 
             /* Time out pour permettre l'interaction avec le serveur REST */
@@ -39,37 +41,29 @@ public class HttpGetTask extends AsyncTask {
 
             /* Code reponse du serveur http */
             switch (conn.getResponseCode()) {
-                case HttpURLConnection.HTTP_CREATED :
+                case HttpURLConnection.HTTP_CREATED:
+                case HttpURLConnection.HTTP_OK:
                     System.out.println("Http request completed !");
                     break;
 
-                case HttpURLConnection.HTTP_OK :
-                    System.out.println("Http request completed !");
-                    break;
-
-                case HttpURLConnection.HTTP_NOT_FOUND :
+                case HttpURLConnection.HTTP_NOT_FOUND:
                     System.out.println("File not found !");
                     break;
 
-                default :
+                default:
                     System.out.println("Failed : HTTP error code : "
                             + conn.getResponseCode());
             }
 
-            /* Lecture de la sortie standard du serveur http */
+             /* Lecture de la sortie standard du serveur http */
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
             String output;
-            System.out.println("Output from Server .... \n");
+
             while ((output = br.readLine()) != null) {
-                System.out.println(output);
+                replyFromServer += output;
             }
 
             conn.disconnect();
-
-        } catch (MalformedURLException e) {
-
-            e.printStackTrace();
 
         } catch (IOException e) {
 
@@ -77,7 +71,7 @@ public class HttpGetTask extends AsyncTask {
 
         }
 
-        return null;
+        return replyFromServer;
     }
 
 }

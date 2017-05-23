@@ -11,7 +11,7 @@ import android.widget.Button;
  * Created by Vincent on 22/05/2017.
  */
 
-public class RegisterOrConnectActivity extends AppCompatActivity {
+public class RegisterOrSignInMasterActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -24,7 +24,7 @@ public class RegisterOrConnectActivity extends AppCompatActivity {
         chooseRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent registerMasterIntent = new Intent(RegisterOrConnectActivity.this, RegisterMasterActivity.class);
+                Intent registerMasterIntent = new Intent(RegisterOrSignInMasterActivity.this, RegisterMasterActivity.class);
                 startActivity(registerMasterIntent);
             }
         });
@@ -34,7 +34,7 @@ public class RegisterOrConnectActivity extends AppCompatActivity {
         chooseConnectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent userSignInIntent = new Intent(RegisterOrConnectActivity.this, UserSignInActivity.class);
+                Intent userSignInIntent = new Intent(RegisterOrSignInMasterActivity.this, SignInMasterActivity.class);
                 startActivity(userSignInIntent);
             }
         });

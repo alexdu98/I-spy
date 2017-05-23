@@ -3,32 +3,42 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/user_sign_in_login"
+        android:id="@+id/sign_in_master_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/email"
         android:inputType="textPersonName"
-        android:layout_above="@+id/user_sign_in_password"
+        android:layout_above="@+id/sign_in_master_password"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="11dp" />
 
     <EditText
-        android:id="@+id/user_sign_in_password"
+        android:id="@+id/sign_in_master_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/password"
         android:inputType="textPassword"
         android:layout_centerVertical="true"
-        android:layout_alignStart="@+id/user_sign_in_login" />
+        android:layout_alignStart="@+id/sign_in_master_login" />
 
     <Button
-        android:id="@+id/user_sign_in_button"
+        android:id="@+id/sign_in_master_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/user_sign_in_password"
+        android:layout_below="@+id/sign_in_master_password"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
         android:text="@string/connection" />
+
+    <ProgressBar
+        android:id="@+id/sign_in_master_progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/sign_in_master_button"
+        android:visibility="invisible"
+        android:layout_centerHorizontal="true"
+        android:indeterminate="true" />
+
 </RelativeLayout>
