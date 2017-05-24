@@ -12,14 +12,15 @@
     <string name="email">Email</string>
     <string name="password">Mot de passe</string>
     <string name="choose_password">Choisissez un mot de passe</string>
+    <string name="choose_login">Choisissez un identifiant</string>
     <string name="save">Enregistrer</string>
     <string name="connection">Connexion</string>
     <string name="registration">Inscription</string>
 
     <!-- USER MESSAGES -->
+    <string name="message_register_error">L\'inscription a échoué, veuillez réessayer !</string>
+    <string name="message_sign_in_failed">Connexion échouée. Mauvais identifiant ou mot de passe.</string>
     <string name="message_mail_already_exists">Email déjà utilisé.</string>
-    <string name="message_register_master_error">L\'inscription a échoué, veuillez réessayer !</string>
-    <string name="message_sign_in_master_failed">Connexion échouée. Mauvais identifiant ou mot de passe.</string>
     <string name="message_internet_connection_error">Connexion internet inexistante</string>
     <string name="message_missing_user_info">Informations utilisateur introuvables. Veuillez vous enregistrer d\'abord !</string>
     <string name="message_missing_mandatory_fields">Veuillez remplir tous les champs obligatoires !</string>
@@ -29,8 +30,7 @@
     <string name="register_or_connect_activity_label">Connexion/Inscription</string>
     <string name="choose_mode_activity_label">Mode d\'utilisation de ce téléphone</string>
     <string name="register_slave_activity_label">Enregistrer l\'esclave</string>
-    <string name="register_master_activity_label">Inscription</string>
-    <string name="user_login_activity_label">Connexion</string>
-    <string name="title_activity_list_slaves">Listes des esclaves</string>
+    <string name="title_activity_list_slaves">Liste des esclaves</string>
+    <string name="for_phone">Pour ce téléphone</string>
 
 </resources>

@@ -49,7 +49,13 @@ public class ListSlavesActivity extends AppCompatActivity {
         ViewGroup root = (ViewGroup) findViewById(R.id.activity_list_slaves_id);
         root.addView(progressBar);
 
-        String url = Config.SERVER_DOMAIN;
+        String id = "1"; // A CHANGER PAR L'ID USER
+        String mail = "vi"; // A CHANGER PAR LE MAIL USER
+        String password = "vi"; // A CHANGER PAR LE PASSWORD USER
+        String url = Config.SERVER_DOMAIN + "user/" + id + "/phones";
+
+        // Construction de l'url REST
+        url += "?user[mail]=" + mail + "&user[password]=" + password;
 
         try {
 

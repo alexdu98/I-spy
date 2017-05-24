@@ -79,9 +79,9 @@ public class RegisterMasterActivity extends AppCompatActivity {
 
                                 JSONObject insertedId = (JSONObject) replyFromServer.get("data");
 
-                        /* Ajout dans le fichier user_info des informations du nouvel utilisateur
-                           pour l'envoi de l'id et password dans les futures requetes qu'il passera
-                        */
+                                /* Ajout dans le fichier user_info des informations du nouvel utilisateur
+                                   pour l'envoi de l'id et password dans les futures requetes qu'il passera
+                                */
 
                                 JSONObject userInfoJSON = new JSONObject();
                                 userInfoJSON.put("user_id", insertedId.get("id"));

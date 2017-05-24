@@ -30,12 +30,16 @@
             android:label="@string/register_or_connect_activity_label"/>
 
         <activity
+            android:name=".RegisterOrSignInSlaveActivity"
+            android:label="@string/register_or_connect_activity_label" />
+
+        <activity
             android:name=".RegisterSlaveActivity"
             android:label="@string/register_slave_activity_label" />
 
         <activity
             android:name=".RegisterMasterActivity"
-            android:label="@string/register_master_activity_label" />
+            android:label="@string/registration" />
 
         <activity
             android:name=".ListSlavesActivity"
@@ -43,7 +47,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity android:name=".SignInMasterActivity"
-            android:label="@string/user_login_activity_label"/>
+            android:label="@string/connection" />
+
+        <activity
+            android:name=".SignInSlaveActivity"
+            android:label="@string/connection" />
 
         <service
             android:name=".services.SlaveService"

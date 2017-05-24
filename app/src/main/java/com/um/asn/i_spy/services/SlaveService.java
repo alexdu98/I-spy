@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 
+import com.um.asn.i_spy.Config;
 import com.um.asn.i_spy.models.PositionGPS;
 
 import org.json.JSONException;
@@ -27,7 +28,7 @@ public class SlaveService extends IntentService {
     private final Runnable getGPS = new Runnable(){
         public void run(){
             try {
-                System.out.println("Save Position...");
+                System.out.println("Clock : try save Position");
 
                 PositionGPS posGPS = new PositionGPS(getApplicationContext(), id_phone);
                 posGPS.saveLocation((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE));
@@ -46,7 +47,7 @@ public class SlaveService extends IntentService {
 
     public void getIdPhone(){
         try {
-            FileInputStream file = openFileInput("slave.txt");
+            FileInputStream file = openFileInput(Config.PHONE_INFO);
             InputStreamReader inputStreamReader = new InputStreamReader(file);
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
             StringBuilder sb = new StringBuilder();
@@ -57,7 +58,9 @@ public class SlaveService extends IntentService {
 
             JSONObject jo = new JSONObject(sb.toString());
 
-            this.id_phone = (String)jo.get("id");
+            System.out.println(jo.toString());
+
+            this.id_phone = String.valueOf((int) jo.get("id"));
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

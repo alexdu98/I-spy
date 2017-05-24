@@ -1,49 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="15dp"
-    tools:context="com.um.asn.i_spy.RegisterSlaveActivity">
+    android:padding="15dp">
 
     <EditText
-        android:id="@+id/register_slave_login"
+        android:id="@+id/sign_in_slave_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/register_slave_password"
+        android:layout_above="@+id/sign_in_slave_password"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="11dp"
         android:ems="10"
-        android:hint="@string/choose_login"
+        android:hint="@string/login"
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/register_slave_password"
+        android:id="@+id/sign_in_slave_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/register_slave_login"
+        android:layout_alignStart="@+id/sign_in_slave_login"
         android:layout_centerVertical="true"
         android:ems="10"
-        android:hint="@string/choose_password"
+        android:hint="@string/password"
         android:inputType="textPassword" />
 
     <Button
-        android:id="@+id/register_slave_button"
+        android:id="@+id/sign_in_slave_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/register_slave_password"
+        android:layout_below="@+id/sign_in_slave_password"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:text="@string/save" />
+        android:text="@string/connection" />
+
+    <ProgressBar
+        android:id="@+id/sign_in_slave_progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/sign_in_slave_button"
+        android:layout_centerHorizontal="true"
+        android:indeterminate="true"
+        android:visibility="invisible" />
 
     <TextView
         android:id="@+id/for_phone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/register_slave_login"
+        android:layout_above="@+id/sign_in_slave_login"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="29dp"
         android:text="@string/for_phone"
         android:textSize="20sp"
         android:textStyle="bold" />
+
 </RelativeLayout>

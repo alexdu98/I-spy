@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.um.asn.i_spy.http_methods.HttpGetTask;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -52,7 +51,7 @@ public class SignInMasterActivity extends AppCompatActivity {
                     if (!mailAddress.getText().toString().equals("") && !password.getText().toString().equals("")) {
 
                         // Construction de l'url REST
-                        url += "/?mail=" + mailAddress.getText().toString() + "&password=" + password.getText().toString();
+                        url += "?user[mail]=" + mailAddress.getText().toString() + "&user[password]=" + password.getText().toString();
 
                         try {
 
@@ -67,17 +66,16 @@ public class SignInMasterActivity extends AppCompatActivity {
                                 v.setVisibility(View.VISIBLE);
                                 findViewById(R.id.sign_in_master_progressBar).setVisibility(View.INVISIBLE);
 
-                                if (replyFromServer.get("message").equals("no results"))
+                                if (replyFromServer.get("message").equals("wrongUser"))
                                     Toast.makeText(SignInMasterActivity.this,
-                                            R.string.message_sign_in_master_failed, Toast.LENGTH_LONG).show();
+                                            R.string.message_sign_in_failed, Toast.LENGTH_LONG).show();
                                 else Toast.makeText(SignInMasterActivity.this,
                                         R.string.message_internal_server_error, Toast.LENGTH_LONG).show();
 
                             } else {
 
-                                // le retour d'une requete select est un tableau JSON
-                                JSONArray users = (JSONArray) replyFromServer.get("data");
-                                JSONObject userInfoJSON = users.getJSONObject(0);
+                                // le retour d'une requete select est du JSON
+                                JSONObject userInfoJSON = (JSONObject) replyFromServer.get("data");
 
                         /* Ajout dans le fichier user_info des informations du nouvel utilisateur
                            pour l'envoi de l'id et password dans les futures requetes qu'il passera

