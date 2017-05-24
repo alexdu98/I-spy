@@ -1,4 +1,4 @@
-package com.um.asn.i_spy;
+package com.um.asn.i_spy.listeners;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-public class ConnectionReceiver extends BroadcastReceiver {
+public class ConnectionListener extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent)

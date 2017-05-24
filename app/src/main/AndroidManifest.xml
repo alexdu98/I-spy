@@ -40,19 +40,19 @@
         <activity
             android:name=".ListSlavesActivity"
             android:label="@string/title_activity_list_slaves"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity android:name=".SignInMasterActivity"
             android:label="@string/user_login_activity_label"/>
 
         <service
-            android:name=".SlaveService"
+            android:name=".services.SlaveService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
 
         <receiver
+            android:name=".listeners.BootListener"
             android:enabled="true"
-            android:name=".BootReceiver"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

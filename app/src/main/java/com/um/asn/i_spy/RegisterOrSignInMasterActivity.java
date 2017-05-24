@@ -7,9 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-/**
- * Created by Vincent on 22/05/2017.
- */
 
 public class RegisterOrSignInMasterActivity extends AppCompatActivity {
 

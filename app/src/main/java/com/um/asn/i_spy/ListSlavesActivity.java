@@ -3,15 +3,16 @@ package com.um.asn.i_spy;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-
 import android.support.v7.app.AppCompatActivity;
-
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import com.um.asn.i_spy.adapters.PhonesAdapter;
+import com.um.asn.i_spy.models.Phone;
 
 import java.util.ArrayList;
 

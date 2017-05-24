@@ -1,4 +1,4 @@
-package com.um.asn.i_spy;
+package com.um.asn.i_spy.models;
 
 import android.content.Context;
 import android.location.Address;
@@ -6,6 +6,10 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+
+import com.um.asn.i_spy.entities.PositionGPSEntity;
+import com.um.asn.i_spy.http_methods.HttpPostTask;
+import com.um.asn.i_spy.listeners.GPSListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -104,9 +108,9 @@ public class PositionGPS {
     }
 
     public void insertLocal() {
-        BDOpenHelper myBD = new BDOpenHelper(this.context, BDOpenHelper.POSITION_GPS_COLUMN_ID, null, 1);
+        PositionGPSEntity myBD = new PositionGPSEntity(this.context, PositionGPSEntity.POSITION_GPS_COLUMN_ID, null, 1);
         SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:MM");
-        myBD.insertPosition(
+        myBD.insert(
                 location.getLatitude(),
                 location.getLongitude(),
                 address.get("pays"),
@@ -115,7 +119,7 @@ public class PositionGPS {
                 address.get("code_postal"),
                 sdf.format(new Date())
         );
-        System.out.println("Position saved local (" + myBD.getAllPositions().size() + ")");
+        System.out.println("Position saved local (" + myBD.getAll().size() + ")");
     }
 
 }

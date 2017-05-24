@@ -1,8 +1,6 @@
-package com.um.asn.i_spy;
+package com.um.asn.i_spy.http_methods;
 
 import android.os.AsyncTask;
-
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,10 +11,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
-
-/**
- * Created by Vincent on 09/04/2017.
- */
 
 public class HttpPostTask extends AsyncTask {
 

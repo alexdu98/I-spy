@@ -15,6 +15,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.um.asn.i_spy.http_methods.HttpPostTask;
+import com.um.asn.i_spy.listeners.ConnectionListener;
+import com.um.asn.i_spy.services.SlaveService;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -71,7 +75,7 @@ public class RegisterSlaveActivity extends AppCompatActivity {
                             if ((boolean)result.get("success")) {
 
                                 // Pour enregistrer l'eventListner sur les changements de connexion (car deprecated dans Nougat)
-                                registerReceiver(new ConnectionReceiver(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+                                registerReceiver(new ConnectionListener(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
                                 JSONObject data = (JSONObject) result.get("data");
 

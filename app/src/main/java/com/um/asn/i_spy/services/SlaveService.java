@@ -1,4 +1,4 @@
-package com.um.asn.i_spy;
+package com.um.asn.i_spy.services;
 
 import android.app.IntentService;
 import android.content.Context;
@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+
+import com.um.asn.i_spy.models.PositionGPS;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,8 +20,8 @@ import java.io.InputStreamReader;
 
 public class SlaveService extends IntentService {
 
-    private Handler handler = new Handler();
     private final long TIME_BETWEEN_GET_DATA_GPS_MS = 1000 * 30;
+    private Handler handler = new Handler();
     private String id_phone;
 
     private final Runnable getGPS = new Runnable(){

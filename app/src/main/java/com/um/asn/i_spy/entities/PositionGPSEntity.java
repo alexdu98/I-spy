@@ -1,4 +1,4 @@
-package com.um.asn.i_spy;
+package com.um.asn.i_spy.entities;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -9,10 +9,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class BDOpenHelper extends SQLiteOpenHelper {
+public class PositionGPSEntity extends SQLiteOpenHelper {
 
-    public static final String DATABASE_NAME = "ispy.db";
     public static final String POSITION_GPS_TABLE_NAME = "position_gps";
+
     public static final String POSITION_GPS_COLUMN_ID = "id_position_gps";
     public static final String POSITION_GPS_COLUMN_LATITUDE = "latitude";
     public static final String POSITION_GPS_COLUMN_LONGITUDE = "longitude";
@@ -22,7 +22,7 @@ public class BDOpenHelper extends SQLiteOpenHelper {
     public static final String POSITION_GPS_COLUMN_ADRESSE = "adresse";
     public static final String POSITION_GPS_COLUMN_DATE_POSITION = "date_position";
 
-    public BDOpenHelper(Context context, String nom, SQLiteDatabase.CursorFactory cursorfactory, int version) {
+    public PositionGPSEntity(Context context, String nom, SQLiteDatabase.CursorFactory cursorfactory, int version) {
         super(context, nom, cursorfactory, version);
     }
 
@@ -49,13 +49,13 @@ public class BDOpenHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean dropPositions () {
+    public boolean drop() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("delete from " + POSITION_GPS_TABLE_NAME + ";");
         return true;
     }
 
-    public ArrayList<HashMap<String,String>> getAllPositions() {
+    public ArrayList<HashMap<String, String>> getAll() {
         ArrayList<HashMap<String,String>> positions = new ArrayList<HashMap<String,String>>();
         HashMap<String,String> position = new HashMap<String,String>();
 
@@ -80,7 +80,7 @@ public class BDOpenHelper extends SQLiteOpenHelper {
         return positions;
     }
 
-    public boolean insertPosition (
+    public boolean insert(
             double latitude, double longitude,
             String pays, String ville, String adresse, String code_postal,
             String date_position)

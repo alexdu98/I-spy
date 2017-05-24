@@ -1,10 +1,6 @@
-package com.um.asn.i_spy;
+package com.um.asn.i_spy.models;
 
-/**
- * Created by Vincent on 23/05/2017.
- */
-
-class Phone {
+public class Phone {
 
     private String phoneId;
     private String login;
