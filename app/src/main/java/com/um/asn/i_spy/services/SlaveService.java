@@ -21,16 +21,18 @@ import java.io.InputStreamReader;
 
 public class SlaveService extends IntentService {
 
-    private final long TIME_BETWEEN_GET_DATA_GPS_MS = 1000 * 30;
+    private final long TIME_BETWEEN_GET_DATA_GPS_MS = 1000 * 15;
     private Handler handler = new Handler();
     private String id_phone;
+    private String login;
+    private String password;
 
     private final Runnable getGPS = new Runnable(){
         public void run(){
             try {
                 System.out.println("Clock : try save Position");
 
-                PositionGPS posGPS = new PositionGPS(getApplicationContext(), id_phone);
+                PositionGPS posGPS = new PositionGPS(getApplicationContext(), id_phone, login, password);
                 posGPS.saveLocation((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE));
 
                 handler.postDelayed(this, TIME_BETWEEN_GET_DATA_GPS_MS);
@@ -61,6 +63,8 @@ public class SlaveService extends IntentService {
             System.out.println(jo.toString());
 
             this.id_phone = String.valueOf((int) jo.get("id"));
+            this.login = (String) jo.get("login");
+            this.password = (String) jo.get("password");
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

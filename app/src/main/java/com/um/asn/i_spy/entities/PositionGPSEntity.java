@@ -13,14 +13,15 @@ public class PositionGPSEntity extends SQLiteOpenHelper {
 
     public static final String POSITION_GPS_TABLE_NAME = "position_gps";
 
-    public static final String POSITION_GPS_COLUMN_ID = "id_position_gps";
+    public static final String POSITION_GPS_COLUMN_ID = "id";
     public static final String POSITION_GPS_COLUMN_LATITUDE = "latitude";
     public static final String POSITION_GPS_COLUMN_LONGITUDE = "longitude";
     public static final String POSITION_GPS_COLUMN_PAYS = "pays";
     public static final String POSITION_GPS_COLUMN_VILLE = "ville";
-    public static final String POSITION_GPS_COLUMN_CODE_POSTAL = "code_postal";
+    public static final String POSITION_GPS_COLUMN_CODE_POSTAL = "codePostal";
     public static final String POSITION_GPS_COLUMN_ADRESSE = "adresse";
-    public static final String POSITION_GPS_COLUMN_DATE_POSITION = "date_position";
+    public static final String POSITION_GPS_COLUMN_DATE_POSITION = "datePosition";
+    public static final String POSITION_GPS_COLUMN_PHONE = "phone";
 
     public PositionGPSEntity(Context context, String nom, SQLiteDatabase.CursorFactory cursorfactory, int version) {
         super(context, nom, cursorfactory, version);
@@ -36,7 +37,8 @@ public class PositionGPSEntity extends SQLiteOpenHelper {
                 POSITION_GPS_COLUMN_VILLE + " text, " +
                 POSITION_GPS_COLUMN_CODE_POSTAL + " text, " +
                 POSITION_GPS_COLUMN_ADRESSE + " text, " +
-                POSITION_GPS_COLUMN_DATE_POSITION + " date" +
+                POSITION_GPS_COLUMN_DATE_POSITION + " datetime, " +
+                POSITION_GPS_COLUMN_PHONE + " text" +
                 ");");
     }
 
@@ -55,6 +57,12 @@ public class PositionGPSEntity extends SQLiteOpenHelper {
         return true;
     }
 
+    public boolean delete(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from " + POSITION_GPS_TABLE_NAME + " where " + POSITION_GPS_COLUMN_ID + " = " + id + ";");
+        return true;
+    }
+
     public ArrayList<HashMap<String, String>> getAll() {
         ArrayList<HashMap<String,String>> positions = new ArrayList<HashMap<String,String>>();
         HashMap<String,String> position = new HashMap<String,String>();
@@ -64,6 +72,7 @@ public class PositionGPSEntity extends SQLiteOpenHelper {
         res.moveToFirst();
 
         while(!res.isAfterLast()){
+            position.put(POSITION_GPS_COLUMN_ID, res.getString(res.getColumnIndex(POSITION_GPS_COLUMN_ID)));
             position.put(POSITION_GPS_COLUMN_LATITUDE, res.getString(res.getColumnIndex(POSITION_GPS_COLUMN_LATITUDE)));
             position.put(POSITION_GPS_COLUMN_LONGITUDE, res.getString(res.getColumnIndex(POSITION_GPS_COLUMN_LONGITUDE)));
             position.put(POSITION_GPS_COLUMN_PAYS, res.getString(res.getColumnIndex(POSITION_GPS_COLUMN_PAYS)));
@@ -71,6 +80,7 @@ public class PositionGPSEntity extends SQLiteOpenHelper {
             position.put(POSITION_GPS_COLUMN_CODE_POSTAL, res.getString(res.getColumnIndex(POSITION_GPS_COLUMN_CODE_POSTAL)));
             position.put(POSITION_GPS_COLUMN_ADRESSE, res.getString(res.getColumnIndex(POSITION_GPS_COLUMN_ADRESSE)));
             position.put(POSITION_GPS_COLUMN_DATE_POSITION, res.getString(res.getColumnIndex(POSITION_GPS_COLUMN_DATE_POSITION)));
+            position.put(POSITION_GPS_COLUMN_PHONE, res.getString(res.getColumnIndex(POSITION_GPS_COLUMN_PHONE)));
 
             positions.add(position);
 
@@ -83,7 +93,7 @@ public class PositionGPSEntity extends SQLiteOpenHelper {
     public boolean insert(
             double latitude, double longitude,
             String pays, String ville, String adresse, String code_postal,
-            String date_position)
+            String date_position, String phone)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -94,6 +104,7 @@ public class PositionGPSEntity extends SQLiteOpenHelper {
         contentValues.put(POSITION_GPS_COLUMN_CODE_POSTAL, code_postal);
         contentValues.put(POSITION_GPS_COLUMN_ADRESSE, adresse);
         contentValues.put(POSITION_GPS_COLUMN_DATE_POSITION, date_position);
+        contentValues.put(POSITION_GPS_COLUMN_PHONE, phone);
         db.insert(POSITION_GPS_TABLE_NAME, null, contentValues);
         return true;
     }

@@ -1,13 +1,10 @@
 package com.um.asn.i_spy;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -27,15 +24,10 @@ import java.util.concurrent.ExecutionException;
 
 public class RegisterSlaveActivity extends AppCompatActivity {
 
-    public final static int REQUEST_ALL_PERM = 0;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_slave);
-
-        // Demande les permissions nécessaires
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE, Manifest.permission.CAMERA, Manifest.permission.LOCATION_HARDWARE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, }, REQUEST_ALL_PERM);
 
         Button registerSlaveButton = (Button) findViewById(R.id.register_slave_button);
 
@@ -74,7 +66,7 @@ public class RegisterSlaveActivity extends AppCompatActivity {
 
                                 switch (message) {
                                     case "uniqueLogin":
-                                        toastMessage = R.string.message_mail_already_exists;
+                                        toastMessage = R.string.message_login_already_exists;
                                         break;
                                     default:
                                         toastMessage = R.string.message_internal_server_error;
@@ -87,6 +79,7 @@ public class RegisterSlaveActivity extends AppCompatActivity {
 
                                 // le retour d'une requete select est un tableau JSON
                                 JSONObject obj = (JSONObject) replyFromServer.get("data");
+                                obj.put("password", password.getText().toString());
 
                                 /* Ajout dans le fichier phone_info des informations du téléphone
                                    pour l'envoi de l'id et password dans les futures requetes qu'il passera
@@ -140,22 +133,4 @@ public class RegisterSlaveActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_ALL_PERM: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    Toast.makeText(RegisterSlaveActivity.this, "PERM OK !", Toast.LENGTH_LONG).show();
-
-                } else {
-
-                    Toast.makeText(RegisterSlaveActivity.this, "PERM NOT OK !", Toast.LENGTH_LONG).show();
-                }
-                return;
-            }
-        }
-    }
 }

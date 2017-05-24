@@ -78,6 +78,7 @@ public class SignInSlaveActivity extends AppCompatActivity {
 
                                 // le retour d'une requete select est un tableau JSON
                                 JSONObject obj = (JSONObject) replyFromServer.get("data");
+                                obj.put("password", password.getText().toString());
 
                                 /* Ajout dans le fichier phone_info des informations du téléphone
                                    pour l'envoi de l'id et password dans les futures requetes qu'il passera

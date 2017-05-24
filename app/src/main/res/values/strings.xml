@@ -21,6 +21,7 @@
     <string name="message_register_error">L\'inscription a échoué, veuillez réessayer !</string>
     <string name="message_sign_in_failed">Connexion échouée. Mauvais identifiant ou mot de passe.</string>
     <string name="message_mail_already_exists">Email déjà utilisé.</string>
+    <string name="message_login_already_exists">Identifiant déjà utilisé.</string>
     <string name="message_internet_connection_error">Connexion internet inexistante</string>
     <string name="message_missing_user_info">Informations utilisateur introuvables. Veuillez vous enregistrer d\'abord !</string>
     <string name="message_missing_mandatory_fields">Veuillez remplir tous les champs obligatoires !</string>
