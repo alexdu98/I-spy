@@ -25,9 +25,6 @@ import java.util.concurrent.ExecutionException;
 
 public class SignInMasterActivity extends AppCompatActivity {
 
-    public final static String SERVER_DOMAIN = "https://ispy.calyxe.fr/index.php/";
-    public final static String USER_INFO = "user_info";
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +45,7 @@ public class SignInMasterActivity extends AppCompatActivity {
                 NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
                 if (networkInfo != null && networkInfo.isConnected()) {
 
-                    String url = SERVER_DOMAIN + "user";
+                    String url = Config.SERVER_DOMAIN + "user";
                     TextView mailAddress = (TextView) findViewById(R.id.sign_in_master_login);
                     TextView password = (TextView) findViewById(R.id.sign_in_master_password);
 
@@ -85,7 +82,7 @@ public class SignInMasterActivity extends AppCompatActivity {
                         /* Ajout dans le fichier user_info des informations du nouvel utilisateur
                            pour l'envoi de l'id et password dans les futures requetes qu'il passera
                         */
-                                FileOutputStream userInfoStream = openFileOutput(USER_INFO, Context.MODE_PRIVATE);
+                                FileOutputStream userInfoStream = openFileOutput(Config.USER_INFO, Context.MODE_PRIVATE);
                                 userInfoStream.write(userInfoJSON.toString().getBytes());
 
                                 Intent intent = new Intent(SignInMasterActivity.this, ListSlavesActivity.class);

@@ -2,88 +2,55 @@ package com.um.asn.i_spy.http_methods;
 
 import android.os.AsyncTask;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.StringEntityHC4;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.client.methods.HttpPostHC4;
+import org.apache.http.util.EntityUtils;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 
 import javax.net.ssl.HttpsURLConnection;
 
 public class HttpPostTask extends AsyncTask {
 
-
     @Override
+    @SuppressWarnings("deprecation")
     protected Object doInBackground(Object[] params) {
 
         String replyFromServer = "";
+        HttpClient httpClient = HttpClientBuilder.create().build();
+        HttpPost request = new HttpPost((String) params[0]);
+        StringEntity httpBody = null;
 
         try {
+            httpBody = new StringEntity("json=" + URLEncoder.encode((String) params[1]));
+            request.addHeader("content-type", "application/x-www-form-urlencoded");
+            request.setEntity(httpBody);
+            HttpResponse response = null;
+            response = httpClient.execute(request);
 
-            /* Recuperation de l'url et de l'objet json a envoyer en POST
-             * L'objet json est sous forme de String */
-            URL url = new URL((String)params[0]);
-            HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+            replyFromServer = EntityUtils.toString(response.getEntity());
 
-            /* Time out pour permettre l'interaction avec le serveur REST */
-            conn.setReadTimeout(10000);
-            conn.setConnectTimeout(15000);
-
-            /* Activation de la recuperation d'un InputStream et OutputStream
-            * a partir du serveur */
-            conn.setDoInput(true);
-            conn.setDoOutput(true);
-            conn.setRequestMethod("POST");
-
-            /* Objet json sous forme de String */
-            String input = (String)params[1];
-            OutputStream os = conn.getOutputStream();
-
-            /* Ecriture dans l'entree standard du serveur REST */
-            os.write(input.getBytes());
-            os.flush();
-
-            /* Code reponse du serveur http */
-            switch (conn.getResponseCode()) {
-
-                // En cas de reussite
-                case HttpURLConnection.HTTP_CREATED :
-                case HttpURLConnection.HTTP_OK :
-                    System.out.println("Http request completed !");
-                    break;
-
-                case HttpURLConnection.HTTP_NOT_FOUND :
-                    System.out.println("File not found !");
-                    break;
-
-                default :
-                    System.out.println("Failed : HTTP error code : "
-                            + conn.getResponseCode());
-            }
-
-            /* Lecture de la sortie standard du serveur http */
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            String output;
-            System.out.println("Output from Server .... \n");
-            while ((output = br.readLine()) != null) {
-                System.out.println(output);
-                replyFromServer += output;
-            }
-
-
-            conn.disconnect();
-
-        } catch (MalformedURLException e) {
-
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-
         } catch (IOException e) {
-
             e.printStackTrace();
-
         }
+        System.out.println(replyFromServer);
 
         return replyFromServer;
     }

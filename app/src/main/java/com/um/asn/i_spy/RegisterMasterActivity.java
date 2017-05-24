@@ -23,9 +23,6 @@ import java.util.concurrent.ExecutionException;
 
 public class RegisterMasterActivity extends AppCompatActivity {
 
-    public final static String SERVER_DOMAIN = "https://ispy.calyxe.fr/index.php/";
-    public final static String USER_INFO = "user_info";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +43,7 @@ public class RegisterMasterActivity extends AppCompatActivity {
                     NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
                     if (networkInfo != null && networkInfo.isConnected()) {
 
-                        String url = SERVER_DOMAIN + "user";
+                        String url = Config.SERVER_DOMAIN + "/users?id=1";
                         TextView mailAddress = (TextView) findViewById(R.id.register_master_login);
                         TextView password = (TextView) findViewById(R.id.register_master_password);
 
@@ -60,10 +57,24 @@ public class RegisterMasterActivity extends AppCompatActivity {
                             JSONObject replyFromServer = new JSONObject((String) new HttpPostTask()
                                     .execute(new Object[]{url, user.toString()}).get());
 
-                            if (((boolean)replyFromServer.get("success")) == false) {
+                            if (!((boolean) replyFromServer.get("success"))) {
+
+                                /* Handling error message from server*/
+                                String message = (String) replyFromServer.get("message");
+                                int toastMessage;
+
+                                switch(message) {
+                                    case "uniqueMail":
+                                        toastMessage = R.string.message_mail_already_exists;
+                                        break;
+                                    default:
+                                        toastMessage = R.string.message_internal_server_error;
+                                        break;
+                                }
 
                                 Toast.makeText(RegisterMasterActivity.this,
-                                        R.string.message_register_master_error, Toast.LENGTH_LONG).show();
+                                        toastMessage, Toast.LENGTH_LONG).show();
+
                             } else {
 
                                 JSONObject insertedId = (JSONObject) replyFromServer.get("data");
@@ -77,7 +88,7 @@ public class RegisterMasterActivity extends AppCompatActivity {
                                 userInfoJSON.put("mail", mailAddress.getText().toString());
                                 userInfoJSON.put("password", password.getText().toString()); // Penser a encrypter le mot de passe
 
-                                FileOutputStream userInfoStream = openFileOutput(USER_INFO, Context.MODE_PRIVATE);
+                                FileOutputStream userInfoStream = openFileOutput(Config.USER_INFO, Context.MODE_PRIVATE);
                                 userInfoStream.write(userInfoJSON.toString().getBytes());
 
                                 Intent intent = new Intent(RegisterMasterActivity.this, ListSlavesActivity.class);

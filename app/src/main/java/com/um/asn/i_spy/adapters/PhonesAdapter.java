@@ -14,10 +14,6 @@ import java.util.ArrayList;
 
 public class PhonesAdapter extends ArrayAdapter<Phone> {
 
-    Context context;
-    int layoutResourceId;
-    ArrayList<Phone> data = null;
-
     public PhonesAdapter(Context context, ArrayList<Phone> users) {
         super(context, 0, users);
     }

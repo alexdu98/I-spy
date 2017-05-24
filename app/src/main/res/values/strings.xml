@@ -17,6 +17,7 @@
     <string name="registration">Inscription</string>
 
     <!-- USER MESSAGES -->
+    <string name="message_mail_already_exists">Email déjà utilisé.</string>
     <string name="message_register_master_error">L\'inscription a échoué, veuillez réessayer !</string>
     <string name="message_sign_in_master_failed">Connexion échouée. Mauvais identifiant ou mot de passe.</string>
     <string name="message_internet_connection_error">Connexion internet inexistante</string>
