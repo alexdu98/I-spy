@@ -65,13 +65,15 @@ public class PositionGPSEntity extends SQLiteOpenHelper {
 
     public ArrayList<HashMap<String, String>> getAll() {
         ArrayList<HashMap<String,String>> positions = new ArrayList<HashMap<String,String>>();
-        HashMap<String,String> position = new HashMap<String,String>();
+
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery("select * from " + POSITION_GPS_TABLE_NAME, null);
         res.moveToFirst();
 
         while(!res.isAfterLast()){
+            HashMap<String, String> position = new HashMap<String, String>();
+
             position.put(POSITION_GPS_COLUMN_ID, res.getString(res.getColumnIndex(POSITION_GPS_COLUMN_ID)));
             position.put(POSITION_GPS_COLUMN_LATITUDE, res.getString(res.getColumnIndex(POSITION_GPS_COLUMN_LATITUDE)));
             position.put(POSITION_GPS_COLUMN_LONGITUDE, res.getString(res.getColumnIndex(POSITION_GPS_COLUMN_LONGITUDE)));

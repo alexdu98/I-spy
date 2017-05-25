@@ -31,16 +31,12 @@ public class PositionGPS {
     public Context context;
     public Location location;
     public HashMap<String, String> address;
-    public String id_phone;
-    public String login;
-    public String password;
+    public Phone phone;
 
-    public PositionGPS(Context context, String id_phone, String login, String password) {
+    public PositionGPS(Context context, Phone phone) {
         this.context = context;
         this.address = new HashMap<String, String>();
-        this.id_phone = id_phone;
-        this.login = login;
-        this.password = password;
+        this.phone = phone;
         this.location = new Location("");
     }
 
@@ -77,10 +73,6 @@ public class PositionGPS {
                 insertLocal();
             }
         }
-
-        if (networkInfo != null && networkInfo.isConnected()) {
-            insertDistFromLocal(cm);
-        }
     }
 
     public boolean insertDist(boolean isFirstTry, String date) {
@@ -98,7 +90,7 @@ public class PositionGPS {
                 jo.put(PositionGPSEntity.POSITION_GPS_COLUMN_DATE_POSITION, sdf.format(new Date()));
             else
                 jo.put(PositionGPSEntity.POSITION_GPS_COLUMN_DATE_POSITION, sdf.format(sdf.parse(date)));
-            jo.put(PositionGPSEntity.POSITION_GPS_COLUMN_PHONE, this.id_phone);
+            jo.put(PositionGPSEntity.POSITION_GPS_COLUMN_PHONE, this.phone);
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (ParseException e) {
@@ -108,7 +100,7 @@ public class PositionGPS {
         JSONObject result = null;
         try {
             String url = Config.SERVER_DOMAIN + "positionsGPS";
-            url += "?phone[login]=" + login + "&phone[password]=" + password;
+            url += "?phone[login]=" + phone.getLogin() + "&phone[password]=" + phone.getPassword();
             result = new JSONObject((String) new HttpPostTask().execute(new Object[]{url, jo.toString()}).get());
 
             if (!(boolean) result.get("success")) {
@@ -140,7 +132,7 @@ public class PositionGPS {
                 address.get(PositionGPSEntity.POSITION_GPS_COLUMN_ADRESSE),
                 address.get(PositionGPSEntity.POSITION_GPS_COLUMN_CODE_POSTAL),
                 sdf.format(new Date()),
-                id_phone
+                phone.getPhoneId()
         );
         System.out.println("Position saved local (" + myBD.getAll().size() + ")");
     }
@@ -149,7 +141,7 @@ public class PositionGPS {
         PositionGPSEntity myBD = new PositionGPSEntity(this.context, PositionGPSEntity.POSITION_GPS_COLUMN_ID, null, 1);
         ArrayList<HashMap<String, String>> positions = myBD.getAll();
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-        System.out.println("Size : " + positions.size());
+        System.out.println("getAll size : " + positions.size());
         for (HashMap<String, String> position : positions) {
             System.out.println(
                     "id : " + position.get(PositionGPSEntity.POSITION_GPS_COLUMN_ID) +
@@ -158,7 +150,7 @@ public class PositionGPS {
                             " / date : " + position.get(PositionGPSEntity.POSITION_GPS_COLUMN_DATE_POSITION)
             );
             if (networkInfo != null && networkInfo.isConnected()) {
-                PositionGPS pos = new PositionGPS(context, id_phone, login, password);
+                PositionGPS pos = new PositionGPS(context, phone);
                 pos.location.setLatitude(Double.parseDouble(position.get(PositionGPSEntity.POSITION_GPS_COLUMN_LATITUDE)));
                 pos.location.setLongitude(Double.parseDouble(position.get(PositionGPSEntity.POSITION_GPS_COLUMN_LONGITUDE)));
                 if (pos.insertDist(false, position.get(PositionGPSEntity.POSITION_GPS_COLUMN_DATE_POSITION))) {
