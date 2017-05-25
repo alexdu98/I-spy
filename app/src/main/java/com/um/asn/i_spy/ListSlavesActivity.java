@@ -1,7 +1,6 @@
 package com.um.asn.i_spy;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -18,14 +17,12 @@ import android.widget.Toast;
 import com.um.asn.i_spy.adapters.PhonesAdapter;
 import com.um.asn.i_spy.http_methods.HttpGetTask;
 import com.um.asn.i_spy.models.Phone;
-import com.um.asn.i_spy.services.SlaveService;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -58,6 +55,7 @@ public class ListSlavesActivity extends AppCompatActivity {
         progressBar.setLayoutParams(new ViewGroup.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT));
         progressBar.setIndeterminate(true);
+        progressBar.setVisibility(View.INVISIBLE);
 
         ListView slavesListView = (ListView)findViewById(R.id.slaves_list_view);
         slavesListView.setEmptyView(progressBar);
@@ -122,6 +120,14 @@ public class ListSlavesActivity extends AppCompatActivity {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                            TextView slaveItemId = (TextView) view.findViewById(R.id.slave_item_id);
+                            TextView slaveItemLogin = (TextView) view.findViewById(R.id.slave_item_login);
+
+                            Intent slaveMenuIntent = new Intent(ListSlavesActivity.this, SlaveMenuActivity.class);
+                            slaveMenuIntent.putExtra("id", slaveItemId.getText().toString());
+                            slaveMenuIntent.putExtra("login", slaveItemLogin.getText().toString());
+
+                            startActivity(slaveMenuIntent);
                         }
                     });
                 }

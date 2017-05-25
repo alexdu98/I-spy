@@ -17,8 +17,14 @@
     <string name="connection">Connexion</string>
     <string name="registration">Inscription</string>
     <string name="add">Ajouter</string>
+    <string name="last_position">Dernière position</string>
+    <string name="last_route">Dernier itinéraire</string>
 
     <!-- USER MESSAGES -->
+    <string name="message_missing_permissions">
+        Permissions manquantes.
+        L\'application peut ne pas fonctionner correctement.
+    </string>
     <string name="message_phone_doesnt_exists">Téléphone non répertorié</string>
     <string name="message_phone_already_in_list">Téléphone déjà enregistré.</string>
     <string name="message_no_phones_registered">Aucun téléphone à inspecter.</string>
@@ -32,11 +38,14 @@
     <string name="message_internal_server_error">Le serveur a rencontré une erreur. Veuillez réessayer l\'opération.</string>
 
     <!-- TITLES AND LABELS -->
+    <string name="slave_menu_label">Actions pour</string>
     <string name="register_or_connect_activity_label">Connexion/Inscription</string>
     <string name="choose_mode_activity_label">Mode d\'utilisation de ce téléphone</string>
     <string name="register_slave_activity_label">Enregistrer l\'esclave</string>
     <string name="add_slave_activity_label">Ajouter un téléphone</string>
     <string name="title_activity_list_slaves">Liste des esclaves</string>
+    <string name="locate_slave_label">Localisation de</string>
     <string name="for_phone">Pour ce téléphone</string>
+    <string name="title_activity_maps">Map</string>
 
 </resources>

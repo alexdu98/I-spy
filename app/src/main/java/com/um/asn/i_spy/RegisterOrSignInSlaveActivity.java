@@ -23,7 +23,11 @@ public class RegisterOrSignInSlaveActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register_or_connect_activity);
 
         // Demande les permissions nécessaires
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE, Manifest.permission.CAMERA, Manifest.permission.LOCATION_HARDWARE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION,}, REQUEST_ALL_PERM);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.CAMERA,
+                Manifest.permission.LOCATION_HARDWARE,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,}, REQUEST_ALL_PERM);
 
         // Bouton pour se diriger vers l'inscription
         Button chooseRegisterButton = (Button) findViewById(R.id.choose_register_button);

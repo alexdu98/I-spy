@@ -12,8 +12,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.um.asn.i_spy.http_methods.HttpPostTask;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -108,8 +108,12 @@ public class AddSlaveActivity extends AppCompatActivity {
 
                                 JSONObject addedPhone = (JSONObject) replyFromServer.get("data");
 
-//                                Intent intent = new Intent(Activity.this, ListSlavesActivity.class);
-//                                startActivity(intent);
+                                Intent intent = new Intent(AddSlaveActivity.this, SlaveMenuActivity.class);
+
+                                intent.putExtra("id", (String) addedPhone.get("id"));
+                                intent.putExtra("login", (String) addedPhone.get("login"));
+
+                                startActivity(intent);
                             }
 
 
