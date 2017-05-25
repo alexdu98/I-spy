@@ -60,7 +60,7 @@ public class SignInMasterActivity extends AppCompatActivity {
 
                             System.out.println(replyFromServer.toString());
 
-                            if (((boolean)replyFromServer.get("success")) == false) {
+                            if (!((boolean) replyFromServer.get("success"))) {
 
                                 // Afficher le bouton et cacher la barre de progression
                                 v.setVisibility(View.VISIBLE);
@@ -76,10 +76,12 @@ public class SignInMasterActivity extends AppCompatActivity {
 
                                 // le retour d'une requete select est du JSON
                                 JSONObject userInfoJSON = (JSONObject) replyFromServer.get("data");
+                                userInfoJSON.put("password", password.getText().toString());
 
                         /* Ajout dans le fichier user_info des informations du nouvel utilisateur
                            pour l'envoi de l'id et password dans les futures requetes qu'il passera
                         */
+                                deleteFile(Config.USER_INFO);
                                 FileOutputStream userInfoStream = openFileOutput(Config.USER_INFO, Context.MODE_PRIVATE);
                                 userInfoStream.write(userInfoJSON.toString().getBytes());
 
@@ -98,6 +100,10 @@ public class SignInMasterActivity extends AppCompatActivity {
                         Toast.makeText(SignInMasterActivity.this, R.string.message_missing_mandatory_fields, Toast.LENGTH_LONG).show();
                     }
                 } else {
+
+                    // Afficher le bouton et cacher la barre de progression
+                    v.setVisibility(View.VISIBLE);
+                    findViewById(R.id.sign_in_master_progressBar).setVisibility(View.INVISIBLE);
                     Toast.makeText(SignInMasterActivity.this, R.string.message_internet_connection_error, Toast.LENGTH_LONG).show();
                 }
 

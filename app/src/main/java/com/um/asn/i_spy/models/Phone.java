@@ -19,7 +19,13 @@ public class Phone {
     private String login;
     private String password;
 
-    public Phone(){}
+    public Phone() {
+    }
+
+    public Phone(String pId, String n) {
+        phoneId = pId;
+        login = n;
+    }
 
     public Phone(String pId, String n, String pssw) {
         phoneId = pId;
@@ -31,17 +37,17 @@ public class Phone {
         return login;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public String getPhoneId() {
         return phoneId;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     @Override
     public String toString() {
-        return phoneId + " " + " " + login + " " + password;
+        return phoneId + " " + " " + login;
     }
 
     public void loadWithFile(Context context) {

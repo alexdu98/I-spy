@@ -53,6 +53,9 @@
             android:name=".SignInSlaveActivity"
             android:label="@string/connection" />
 
+        <activity android:name=".AddSlaveActivity"
+            android:label="@string/add_slave_activity_label"/>
+
         <service
             android:name=".services.SlaveService"
             android:enabled="true"

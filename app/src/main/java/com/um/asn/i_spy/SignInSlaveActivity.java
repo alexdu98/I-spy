@@ -63,7 +63,7 @@ public class SignInSlaveActivity extends AppCompatActivity {
 
                             System.out.println(replyFromServer.toString());
 
-                            if (((boolean) replyFromServer.get("success")) == false) {
+                            if (!((boolean) replyFromServer.get("success"))) {
 
                                 // Afficher le bouton et cacher la barre de progression
                                 v.setVisibility(View.VISIBLE);
@@ -83,6 +83,7 @@ public class SignInSlaveActivity extends AppCompatActivity {
                                 /* Ajout dans le fichier phone_info des informations du téléphone
                                    pour l'envoi de l'id et password dans les futures requetes qu'il passera
                                 */
+                                deleteFile(Config.PHONE_INFO);
                                 FileOutputStream phoneInfoStream = openFileOutput(Config.PHONE_INFO, Context.MODE_PRIVATE);
                                 phoneInfoStream.write(obj.toString().getBytes());
 

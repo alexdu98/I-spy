@@ -3,69 +3,47 @@ package com.um.asn.i_spy.http_methods;
 
 import android.os.AsyncTask;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 
 import javax.net.ssl.HttpsURLConnection;
 
 
 public class HttpGetTask extends AsyncTask {
 
-
     @Override
+    @SuppressWarnings("deprecation")
     protected Object doInBackground(Object[] params) {
 
         String replyFromServer = "";
 
+        HttpClient httpClient = HttpClientBuilder.create().build();
+        HttpGet request = new HttpGet((String) params[0]);
+
         try {
 
-            /* Recuperation de l'url contenant le chemin de la ressource a retourner */
-            URL url = new URL((String) params[0]);
-            HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+            HttpResponse response = null;
+            response = httpClient.execute(request);
 
-            /* Time out pour permettre l'interaction avec le serveur REST */
-            conn.setReadTimeout(10000);
-            conn.setConnectTimeout(15000);
-
-            /* Activation de la recuperation d'un InputStream et OutputStream
-            * a partir du serveur */
-            conn.setDoInput(true);
-            conn.setRequestMethod("GET");
-
-            /* Code reponse du serveur http */
-            switch (conn.getResponseCode()) {
-                case HttpURLConnection.HTTP_CREATED:
-                case HttpURLConnection.HTTP_OK:
-                    System.out.println("Http request completed !");
-                    break;
-
-                case HttpURLConnection.HTTP_NOT_FOUND:
-                    System.out.println("File not found !");
-                    break;
-
-                default:
-                    System.out.println("Failed : HTTP error code : "
-                            + conn.getResponseCode());
-            }
-
-             /* Lecture de la sortie standard du serveur http */
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            String output;
-
-            while ((output = br.readLine()) != null) {
-                replyFromServer += output;
-            }
-
-            conn.disconnect();
+            replyFromServer = EntityUtils.toString(response.getEntity());
 
         } catch (IOException e) {
-
             e.printStackTrace();
-
         }
+        System.out.println(replyFromServer);
 
         return replyFromServer;
     }

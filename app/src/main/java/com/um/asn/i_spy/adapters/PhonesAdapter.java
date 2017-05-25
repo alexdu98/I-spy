@@ -29,12 +29,10 @@ public class PhonesAdapter extends ArrayAdapter<Phone> {
         }
 
         TextView phoneLoginTW = (TextView) convertView.findViewById(R.id.slave_item_login);
-        TextView phonePasswordTW = (TextView) convertView.findViewById(R.id.slave_item_password);
         TextView phoneIdTW = (TextView) convertView.findViewById(R.id.slave_item_id);
 
         phoneLoginTW.setText(phone.getLogin());
         phoneIdTW.setText(phone.getPhoneId());
-        phonePasswordTW.setText(phone.getPassword());
 
         return convertView;
     }

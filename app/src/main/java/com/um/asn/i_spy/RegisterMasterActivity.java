@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,14 +29,19 @@ public class RegisterMasterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_master);
 
-        Button registerMasterButton = (Button) findViewById(R.id.register_master_button);
+        final Button registerMasterButton = (Button) findViewById(R.id.register_master_button);
 
         registerMasterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                /* Creation d'un objet HttpPostTask, execution de la methode
-                 * doInBackground et recuperation du resultat */
+                // Recuperation de la progress bar
+                ProgressBar registerMasterProgressBar = (ProgressBar) findViewById(R.id.register_master_progressBar);
+
+                // Activation de la progress bar en cercle et effacement du bouton
+                v.setVisibility(View.INVISIBLE);
+                registerMasterProgressBar.setVisibility(View.VISIBLE);
+
                 try {
 
                     ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -43,7 +49,7 @@ public class RegisterMasterActivity extends AppCompatActivity {
                     NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
                     if (networkInfo != null && networkInfo.isConnected()) {
 
-                        String url = Config.SERVER_DOMAIN + "/users?id=1";
+                        String url = Config.SERVER_DOMAIN + "/users";
                         TextView mailAddress = (TextView) findViewById(R.id.register_master_login);
                         TextView password = (TextView) findViewById(R.id.register_master_password);
 
@@ -54,6 +60,8 @@ public class RegisterMasterActivity extends AppCompatActivity {
                             user.put("mail", mailAddress.getText().toString());
                             user.put("password", password.getText().toString());
 
+                             /* Creation d'un objet HttpPostTask, execution de la methode
+                            * doInBackground et recuperation du resultat */
                             JSONObject replyFromServer = new JSONObject((String) new HttpPostTask()
                                     .execute(new Object[]{url, user.toString()}).get());
 
@@ -63,7 +71,7 @@ public class RegisterMasterActivity extends AppCompatActivity {
                                 String message = (String) replyFromServer.get("message");
                                 int toastMessage;
 
-                                switch(message) {
+                                switch (message) {
                                     case "uniqueMail":
                                         toastMessage = R.string.message_mail_already_exists;
                                         break;
@@ -74,6 +82,10 @@ public class RegisterMasterActivity extends AppCompatActivity {
 
                                 Toast.makeText(RegisterMasterActivity.this,
                                         toastMessage, Toast.LENGTH_LONG).show();
+
+                                // Desactivation de la progress bar en cercle et apparition du bouton
+                                v.setVisibility(View.VISIBLE);
+                                registerMasterProgressBar.setVisibility(View.INVISIBLE);
 
                             } else {
 
@@ -88,15 +100,31 @@ public class RegisterMasterActivity extends AppCompatActivity {
                                 userInfoJSON.put("mail", mailAddress.getText().toString());
                                 userInfoJSON.put("password", password.getText().toString()); // Penser a encrypter le mot de passe
 
+                                // Supprime le fichier user info si il existe
+                                deleteFile(Config.USER_INFO);
+
                                 FileOutputStream userInfoStream = openFileOutput(Config.USER_INFO, Context.MODE_PRIVATE);
                                 userInfoStream.write(userInfoJSON.toString().getBytes());
 
                                 Intent intent = new Intent(RegisterMasterActivity.this, ListSlavesActivity.class);
                                 startActivity(intent);
                             }
+
+                        } else {
+
+                            Toast.makeText(RegisterMasterActivity.this,
+                                    R.string.message_missing_mandatory_fields, Toast.LENGTH_LONG).show();
+
+                            // Desactivation de la progress bar en cercle et apparition du bouton
+                            v.setVisibility(View.VISIBLE);
+                            registerMasterProgressBar.setVisibility(View.INVISIBLE);
                         }
                     } else {
+
                         Toast.makeText(RegisterMasterActivity.this, R.string.message_internet_connection_error, Toast.LENGTH_LONG).show();
+                        // Desactivation de la progress bar en cercle et apparition du bouton
+                        v.setVisibility(View.VISIBLE);
+                        registerMasterProgressBar.setVisibility(View.INVISIBLE);
                     }
 
                 } catch (InterruptedException e) {
