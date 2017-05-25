@@ -32,7 +32,7 @@ public class PhonesAdapter extends ArrayAdapter<Phone> {
         TextView phoneIdTW = (TextView) convertView.findViewById(R.id.slave_item_id);
 
         phoneLoginTW.setText(phone.getLogin());
-        phoneIdTW.setText(phone.getPhoneId());
+        phoneIdTW.setText(String.valueOf(phone.getId()));
 
         return convertView;
     }

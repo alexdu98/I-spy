@@ -15,20 +15,20 @@ import java.io.InputStreamReader;
 
 public class Phone {
 
-    private String phoneId;
+    private int id;
     private String login;
     private String password;
 
     public Phone() {
     }
 
-    public Phone(String pId, String n) {
-        phoneId = pId;
+    public Phone(int pId, String n) {
+        id = pId;
         login = n;
     }
 
-    public Phone(String pId, String n, String pssw) {
-        phoneId = pId;
+    public Phone(int pId, String n, String pssw) {
+        id = pId;
         login = n;
         password = pssw;
     }
@@ -37,17 +37,29 @@ public class Phone {
         return login;
     }
 
-    public String getPhoneId() {
-        return phoneId;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getPassword() {
         return password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
-        return phoneId + " " + " " + login;
+        return id + " " + " " + login + " " + password;
     }
 
     public void loadWithFile(Context context) {
@@ -65,7 +77,7 @@ public class Phone {
 
             System.out.println(jo.toString());
 
-            this.phoneId = String.valueOf((int) jo.get("id"));
+            this.id = (int) jo.get("id");
             this.login = (String) jo.get("login");
             this.password = (String) jo.get("password");
 

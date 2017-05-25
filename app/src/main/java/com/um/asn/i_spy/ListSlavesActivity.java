@@ -108,7 +108,7 @@ public class ListSlavesActivity extends AppCompatActivity {
 
                     for(int i = 0; i < phonesArray.length(); i++) {
                         phoneJSON = phonesArray.getJSONObject(i);
-                        phones.add(new Phone(String.valueOf(phoneJSON.get("id")),
+                        phones.add(new Phone((int) phoneJSON.get("id"),
                                 (String)phoneJSON.get("login")));
                     }
 

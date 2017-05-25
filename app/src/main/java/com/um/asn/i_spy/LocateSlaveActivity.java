@@ -48,8 +48,7 @@ public class LocateSlaveActivity extends AppCompatActivity implements OnMapReady
             // Recuperation des infos du telephone pour lequel le menu est affiche
             Intent slaveMenuIntent = getIntent();
 
-            targetPhone = new Phone(slaveMenuIntent.getStringExtra("id"),
-                    slaveMenuIntent.getStringExtra("login"));
+            targetPhone = new Phone(Integer.parseInt(slaveMenuIntent.getStringExtra("id")), slaveMenuIntent.getStringExtra("login"));
 
             // Recuperation des infos utilisateur
             InputStream userInfoIS = openFileInput(Config.USER_INFO);
@@ -89,10 +88,12 @@ public class LocateSlaveActivity extends AppCompatActivity implements OnMapReady
 
             // Checking GPS options enabled
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    || ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
                     || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
                 ActivityCompat.requestPermissions(this, new String[]{
                         Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.ACCESS_COARSE_LOCATION,}, REQUEST_GPS_PERM);
 
             }
@@ -103,7 +104,7 @@ public class LocateSlaveActivity extends AppCompatActivity implements OnMapReady
             if (networkInfo != null && networkInfo.isConnected()) {
 
                 // Construction de l'url REST
-                url += currentUser.getId() + "/phone/" + targetPhone.getPhoneId()
+                url += currentUser.getId() + "/phone/" + targetPhone.getId()
                         + "/position_gps" + "?user[mail]=" + currentUser.getMail()
                         + "&user[password]=" + currentUser.getPassword() + "&last=1";
 
@@ -117,8 +118,8 @@ public class LocateSlaveActivity extends AppCompatActivity implements OnMapReady
                 } else {
 
                     JSONObject targetPhoneGPSPosJSON = (JSONObject) replyFromServer.get("data");
-                    LatLng targetPhoneLatLng = new LatLng((int) targetPhoneGPSPosJSON.get("latitude"),
-                            (int) targetPhoneGPSPosJSON.get("longitude"));
+                    LatLng targetPhoneLatLng = new LatLng((double) targetPhoneGPSPosJSON.get("latitude"),
+                            (double) targetPhoneGPSPosJSON.get("longitude"));
 
                     locateSlaveGoogleMap.setMyLocationEnabled(false);
                     locateSlaveGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(targetPhoneLatLng, 13));
