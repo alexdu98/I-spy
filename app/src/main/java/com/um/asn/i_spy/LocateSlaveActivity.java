@@ -113,21 +113,33 @@ public class LocateSlaveActivity extends AppCompatActivity implements OnMapReady
 
                 System.out.println("Reply from server : " + replyFromServer.toString());
 
+                // Si success est a false, c'est une erreur du serveur
                 if (!((boolean) replyFromServer.get("success"))) {
+
+                    Toast.makeText(LocateSlaveActivity.this, R.string.message_internal_server_error, Toast.LENGTH_LONG).show();
 
                 } else {
 
-                    JSONObject targetPhoneGPSPosJSON = (JSONObject) replyFromServer.get("data");
-                    LatLng targetPhoneLatLng = new LatLng((double) targetPhoneGPSPosJSON.get("latitude"),
-                            (double) targetPhoneGPSPosJSON.get("longitude"));
+                    // si data est a null, il n'y pas de derniere position connue pour le phone
+                    // utiliser equals, == plante
+                    if (replyFromServer.get("data").equals(null)) {
+                        Toast.makeText(LocateSlaveActivity.this,
+                                R.string.message_last_location_unknown,
+                                Toast.LENGTH_LONG).show();
+                    } else {
 
-                    locateSlaveGoogleMap.setMyLocationEnabled(false);
-                    locateSlaveGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(targetPhoneLatLng, 13));
+                        JSONObject targetPhoneGPSPosJSON = (JSONObject) replyFromServer.get("data");
+                        LatLng targetPhoneLatLng = new LatLng((double) targetPhoneGPSPosJSON.get("latitude"),
+                                (double) targetPhoneGPSPosJSON.get("longitude"));
 
-                    locateSlaveGoogleMap.addMarker(new MarkerOptions()
-                            .title("Sydney")
-                            .snippet("The most populous city in Australia.")
-                            .position(targetPhoneLatLng));
+                        locateSlaveGoogleMap.setMyLocationEnabled(false);
+                        locateSlaveGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(targetPhoneLatLng, 13));
+
+                        locateSlaveGoogleMap.addMarker(new MarkerOptions()
+                                .title(targetPhoneGPSPosJSON.getString("adresse"))
+                                .snippet(targetPhoneGPSPosJSON.getString("datePosition"))
+                                .position(targetPhoneLatLng));
+                    }
                 }
 
             } else {

@@ -21,6 +21,7 @@
     <string name="last_route">Dernier itinéraire</string>
 
     <!-- USER MESSAGES -->
+    <string name="message_last_location_unknown">Dernière position inconnue.</string>
     <string name="message_missing_permissions">
         Permissions manquantes.
         L\'application peut ne pas fonctionner correctement.
