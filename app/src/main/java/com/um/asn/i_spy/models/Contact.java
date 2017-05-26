@@ -58,4 +58,11 @@ public class Contact {
     public void setPhone(Phone phone) {
         this.phone = phone;
     }
+
+    public boolean isSame(Contact contact) throws Exception {
+        if (contact.getIdRef() != this.getIdRef())
+            throw new Exception("Not the same contact (idRef)");
+        return this.getNom().equals(contact.getNom()) &&
+                this.getNumero().equals(contact.getNumero());
+    }
 }

