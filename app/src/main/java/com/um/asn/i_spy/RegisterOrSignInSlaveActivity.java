@@ -29,7 +29,9 @@ public class RegisterOrSignInSlaveActivity extends AppCompatActivity {
                 Manifest.permission.LOCATION_HARDWARE,
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.READ_CONTACTS
+                Manifest.permission.READ_CONTACTS,
+                Manifest.permission.READ_SMS,
+                Manifest.permission.RECEIVE_SMS,
         }, REQUEST_ALL_PERM);
 
         // Bouton pour se diriger vers l'inscription
