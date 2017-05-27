@@ -12,6 +12,12 @@ public class Contact {
     public Contact() {
     }
 
+    public Contact(int id, String nom, String numero) {
+        this.id = id;
+        this.nom = nom;
+        this.numero = numero;
+    }
+
     public Contact(String nom, String numero, int idRef, Phone phone) {
         this.nom = nom;
         this.numero = numero;

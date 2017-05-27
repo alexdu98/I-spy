@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.um.asn.i_spy.models.Phone;
 import com.um.asn.i_spy.models.User;
@@ -26,7 +27,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 
-public class SlaveMainActivity extends AppCompatActivity {
+public class SlaveMainActivity extends AppCompatActivity
+        implements ShowSlaveContactsFragment.OnContactSelectedListener {
 
     // Position des items dans la list view
     private final static int LOCATE_SLAVE = 0;
@@ -186,11 +188,17 @@ public class SlaveMainActivity extends AppCompatActivity {
         slaveMenuDrawerLayout.closeDrawer(slaveMenuListView);
     }
 
+    @Override
+    public void onContactSelected(int contactId) {
+
+        Toast.makeText(this, "Affichage des messages du contact id = " + contactId, Toast.LENGTH_LONG).show();
+        // Call to showMessagesFragment
+    }
+
     private class OnSlaveMenuItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             selectItem(position);
         }
     }
-
 }

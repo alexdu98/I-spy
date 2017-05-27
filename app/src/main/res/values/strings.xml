@@ -47,12 +47,12 @@
     <string name="add_slave_activity_label">Ajouter un téléphone</string>
     <string name="list_slaves_activity_label">Liste des téléphones</string>
     <string name="locate_slave_fragment_label">Localisation de</string>
+    <string name="show_slave_contacts_fragment_label">Voir les contacts de</string>
     <string name="for_phone">Pour ce téléphone</string>
     <string name="title_activity_maps">Map</string>
 
     <!-- MENU ITEMS -->
-    <string name="menu_item_locate_slave">Localiser</string>
-    <string name="menu_item_show_contacts">Voir les contacts</string>
+    <string name="menu_item_show_drawer">Menu</string>
     <string name="menu_item_list_slaves">Lister les téléphones</string>
 
 

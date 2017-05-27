@@ -14,12 +14,13 @@ import java.util.ArrayList;
 
 public class PhonesAdapter extends ArrayAdapter<Phone> {
 
-    public PhonesAdapter(Context context, ArrayList<Phone> users) {
-        super(context, 0, users);
+    public PhonesAdapter(Context context, ArrayList<Phone> phones) {
+        super(context, 0, phones);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         // Get the data item for this position
         Phone phone = getItem(position);
 

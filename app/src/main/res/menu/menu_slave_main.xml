@@ -5,14 +5,14 @@
     <item
         android:id="@+id/menu_item_show_drawer"
         android:icon="@drawable/ic_menu"
-        android:title="@string/menu_item_locate_slave"
-        app:showAsAction="always|ifRoom" />
+        android:title="@string/menu_item_show_drawer"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/menu_item_to_slaves_list"
         android:icon="@android:drawable/ic_menu_revert"
-        android:title="@string/menu_item_show_contacts"
-        app:showAsAction="always|ifRoom" />
+        android:title="@string/menu_item_list_slaves"
+        app:showAsAction="ifRoom" />
 
 
 </menu>
