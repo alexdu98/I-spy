@@ -44,9 +44,6 @@
             android:name=".RegisterMasterActivity"
             android:label="@string/registration" />
         <activity
-            android:name=".ListSlavesActivity"
-            android:label="@string/title_activity_list_slaves" />
-        <activity
             android:name=".SignInMasterActivity"
             android:label="@string/connection" />
         <activity
@@ -56,9 +53,13 @@
             android:name=".AddSlaveActivity"
             android:label="@string/add_slave_activity_label" />
         <activity
-            android:name=".SlaveMenuActivity"
+            android:name=".SlaveMainActivity"
             android:label="@string/slave_menu_label" />
-        <activity android:name=".LocateSlaveActivity" />
+
+        <activity
+            android:name=".ListSlavesActivity"
+            android:label="@string/list_slaves_activity_label" />
+
 
         <service
             android:name=".services.SlaveService"

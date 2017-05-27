@@ -108,7 +108,7 @@ public class AddSlaveActivity extends AppCompatActivity {
 
                                 JSONObject addedPhone = (JSONObject) replyFromServer.get("data");
 
-                                Intent intent = new Intent(AddSlaveActivity.this, SlaveMenuActivity.class);
+                                Intent intent = new Intent(AddSlaveActivity.this, LocateSlaveFragment.class);
 
                                 intent.putExtra("id", (String) addedPhone.get("id"));
                                 intent.putExtra("login", (String) addedPhone.get("login"));

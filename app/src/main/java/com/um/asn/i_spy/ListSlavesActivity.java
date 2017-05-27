@@ -17,12 +17,14 @@ import android.widget.Toast;
 import com.um.asn.i_spy.adapters.PhonesAdapter;
 import com.um.asn.i_spy.http_methods.HttpGetTask;
 import com.um.asn.i_spy.models.Phone;
+import com.um.asn.i_spy.models.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -33,51 +35,53 @@ import java.util.concurrent.ExecutionException;
 public class ListSlavesActivity extends AppCompatActivity {
 
     PhonesAdapter myPhones;
+    ListView slavesListView;
+    User currentUser;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_list_slaves);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.list_slaves_add_button);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent addSlaveIntent = new Intent(ListSlavesActivity.this, AddSlaveActivity.class);
-                startActivity(addSlaveIntent);
-            }
-        });
-
-        // Create a progress bar to display while the list loads
-        ProgressBar progressBar = new ProgressBar(this);
-        progressBar.setLayoutParams(new ViewGroup.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT));
-        progressBar.setIndeterminate(true);
-        progressBar.setVisibility(View.INVISIBLE);
-
-        ListView slavesListView = (ListView)findViewById(R.id.slaves_list_view);
-        slavesListView.setEmptyView(progressBar);
-
-        // Must add the progress bar to the root of the layout
-        ViewGroup root = (ViewGroup) findViewById(R.id.activity_list_slaves_id);
-        root.addView(progressBar);
 
         try {
 
+            setContentView(R.layout.activity_list_slaves);
+
+            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.list_slaves_add_button);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Intent addSlaveIntent = new Intent(ListSlavesActivity.this, AddSlaveActivity.class);
+                    startActivity(addSlaveIntent);
+                }
+            });
+
+            // Create a progress bar to display while the list loads
+            ProgressBar progressBar = new ProgressBar(this);
+            progressBar.setLayoutParams(new ViewGroup.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT));
+            progressBar.setIndeterminate(true);
+            progressBar.setVisibility(View.INVISIBLE);
+
+            slavesListView = (ListView) findViewById(R.id.slaves_list_view);
+            slavesListView.setEmptyView(progressBar);
+
+            // Must add the progress bar to the root of the layout
+            ViewGroup root = (ViewGroup) findViewById(R.id.activity_list_slaves_id);
+            root.addView(progressBar);
+
+            // Recuperation des infos utilisateur
             InputStream userInfoIS = openFileInput(Config.USER_INFO);
             BufferedReader userInfoBR = new BufferedReader(new InputStreamReader(userInfoIS));
             JSONObject userInfoJSON = new JSONObject(userInfoBR.readLine());
 
-            String id = userInfoJSON.get("id").toString();
-            String mail = userInfoJSON.get("mail").toString();
-            String password = userInfoJSON.get("password").toString();
+            currentUser = new User(Integer.valueOf(userInfoJSON.get("id").toString()),
+                    userInfoJSON.get("mail").toString(), userInfoJSON.get("password").toString());
 
-            String url = Config.SERVER_DOMAIN + "user/" + id + "/phones";
+            String url = Config.SERVER_DOMAIN + "user/" + currentUser.getId() + "/phones";
 
             // Construction de l'url REST
-            url += "?user[mail]=" + mail + "&user[password]=" + password;
+            url += "?user[mail]=" + currentUser.getMail() + "&user[password]=" + currentUser.getPassword();
 
             JSONObject replyFromServer = new JSONObject((String) new HttpGetTask()
                     .execute(new Object[]{url}).get());
@@ -85,9 +89,9 @@ public class ListSlavesActivity extends AppCompatActivity {
             if (!((boolean) replyFromServer.get("success"))) {
 
                 if (replyFromServer.get("message").equals("wrongUser"))
-                    Toast.makeText(ListSlavesActivity.this,
+                    Toast.makeText(this,
                             R.string.message_sign_in_failed, Toast.LENGTH_LONG).show();
-                else Toast.makeText(ListSlavesActivity.this,
+                else Toast.makeText(this,
                         R.string.message_internal_server_error, Toast.LENGTH_LONG).show();
             } else {
 
@@ -123,23 +127,24 @@ public class ListSlavesActivity extends AppCompatActivity {
                             TextView slaveItemId = (TextView) view.findViewById(R.id.slave_item_id);
                             TextView slaveItemLogin = (TextView) view.findViewById(R.id.slave_item_login);
 
-                            Intent slaveMenuIntent = new Intent(ListSlavesActivity.this, SlaveMenuActivity.class);
-                            slaveMenuIntent.putExtra("id", slaveItemId.getText().toString());
-                            slaveMenuIntent.putExtra("login", slaveItemLogin.getText().toString());
+                            Intent locateSlaveIntent = new Intent(ListSlavesActivity.this, SlaveMainActivity.class);
+                            locateSlaveIntent.putExtra("id", slaveItemId.getText().toString());
+                            locateSlaveIntent.putExtra("login", slaveItemLogin.getText().toString());
 
-                            startActivity(slaveMenuIntent);
+                            startActivity(locateSlaveIntent);
                         }
                     });
                 }
 
-
             }
 
-        } catch (JSONException | InterruptedException | ExecutionException | IOException e) {
+        } catch (JSONException | InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
-
-
 
 
     }

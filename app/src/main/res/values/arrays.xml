@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="slave_menu_items_array">
+        <item>Localiser le téléphone</item>
+        <item>Voir les contacts</item>
+        <item>Liste des téléphones</item>
+    </string-array>
+</resources>

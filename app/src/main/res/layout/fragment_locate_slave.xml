@@ -4,13 +4,15 @@
     android:layout_height="match_parent"
     android:padding="11dp">
 
-    <fragment
-        android:id="@+id/locate_slave_map_fragment"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/locate_slave_show_route_button"
-        android:layout_alignParentTop="true" />
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/locate_slave_map_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="70dp">
+
+    </com.google.android.gms.maps.MapView>
 
     <Button
         android:id="@+id/locate_slave_show_last_button"
