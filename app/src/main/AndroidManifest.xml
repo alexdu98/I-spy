@@ -77,12 +77,6 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".listeners.MessageReceiveListener">
-            <intent-filter>
-                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
-            </intent-filter>
-        </receiver>
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyA2Q0_n6RFtcOiEwPurpAKu9_G4KfAHzC0" />

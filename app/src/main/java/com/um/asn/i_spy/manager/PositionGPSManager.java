@@ -113,8 +113,8 @@ public class PositionGPSManager {
         this.positions = myBD.getAllPositionGPS();
         System.out.println("getAll size : " + this.positions.size());
 
-        insert();
-        myBD.deleteAllPositionGPS();
+        if (insert())
+            myBD.deleteAllPositionGPS();
     }
 
 }

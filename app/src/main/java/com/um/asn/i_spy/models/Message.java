@@ -12,18 +12,16 @@ public class Message {
     private String contenu;
     private Phone phone;
     private Contact contact;
-    private int idRef;
 
     public Message() {
     }
 
-    public Message(String numero, int type, int date, String contenu, Phone phone, int idRef) {
+    public Message(String numero, int type, int date, String contenu, Phone phone) {
         this.numero = numero;
         this.type = type;
         this.date = date;
         this.contenu = contenu;
         this.phone = phone;
-        this.idRef = idRef;
     }
 
     public int getId() {
@@ -82,11 +80,4 @@ public class Message {
         this.contact = contact;
     }
 
-    public int getIdRef() {
-        return idRef;
-    }
-
-    public void setIdRef(int idRef) {
-        this.idRef = idRef;
-    }
 }

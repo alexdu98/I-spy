@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.location.Location;
 
 import com.um.asn.i_spy.models.Contact;
+import com.um.asn.i_spy.models.Message;
 import com.um.asn.i_spy.models.Phone;
 import com.um.asn.i_spy.models.PositionGPS;
 
@@ -18,6 +19,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
     public static final String POSITION_GPS_TABLE_NAME = "position_gps";
     public static final String CONTACT_TABLE_NAME = "contact";
+    public static final String MESSAGE_TABLE_NAME = "message";
     public static final String POSITION_GPS_COLUMN_ID = "id";
     public static final String POSITION_GPS_COLUMN_LATITUDE = "latitude";
     public static final String POSITION_GPS_COLUMN_LONGITUDE = "longitude";
@@ -28,6 +30,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String CONTACT_COLUMN_NUMERO = "numero";
     public static final String CONTACT_COLUMN_ID_REF = "idRef";
     public static final String CONTACT_COLUMN_PHONE = "phone";
+    public static final String MESSAGE_COLUMN_ID = "id";
+    public static final String MESSAGE_COLUMN_NUMERO = "numero";
+    public static final String MESSAGE_COLUMN_TYPE = "type";
+    public static final String MESSAGE_COLUMN_DATE_MESSAGE = "dateMessage";
+    public static final String MESSAGE_COLUMN_CONTENU = "contenu";
+    public static final String MESSAGE_COLUMN_PHONE = "phone";
     private static final String DATABASE_NAME = "ISpy";
     private static final String CREATE_TABLE_POSITION_GPS = "create table " + POSITION_GPS_TABLE_NAME + " (" +
             POSITION_GPS_COLUMN_ID + " integer primary key autoincrement, " +
@@ -43,6 +51,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             CONTACT_COLUMN_ID_REF + " integer, " +
             CONTACT_COLUMN_PHONE + " text" +
             ");";
+    private static final String CREATE_TABLE_MESSAGE = "create table " + MESSAGE_TABLE_NAME + " (" +
+            MESSAGE_COLUMN_ID + " integer primary key autoincrement, " +
+            MESSAGE_COLUMN_NUMERO + " text, " +
+            MESSAGE_COLUMN_TYPE + " integer, " +
+            MESSAGE_COLUMN_DATE_MESSAGE + " integer, " +
+            MESSAGE_COLUMN_CONTENU + " text, " +
+            MESSAGE_COLUMN_PHONE + " text" +
+            ");";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -52,12 +68,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_POSITION_GPS);
         db.execSQL(CREATE_TABLE_CONTACT);
+        db.execSQL(CREATE_TABLE_MESSAGE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("drop table if exists " + POSITION_GPS_TABLE_NAME + ";");
         db.execSQL("drop table if exists " + CONTACT_TABLE_NAME + ";");
+        db.execSQL("drop table if exists " + MESSAGE_TABLE_NAME + ";");
         onCreate(db);
     }
 
@@ -73,6 +91,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    public boolean deleteAllMessage() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from " + MESSAGE_TABLE_NAME + ";");
+        return true;
+    }
+
     public boolean deleteContact(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("delete from " + CONTACT_TABLE_NAME + " where " + CONTACT_COLUMN_ID + " = " + id + ";");
@@ -82,6 +106,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean deletePositionGPS(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("delete from " + POSITION_GPS_TABLE_NAME + " where " + POSITION_GPS_COLUMN_ID + " = " + id + ";");
+        return true;
+    }
+
+    public boolean deleteMessage(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from " + MESSAGE_TABLE_NAME + " where " + MESSAGE_COLUMN_ID + " = " + id + ";");
         return true;
     }
 
@@ -163,6 +193,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return positions;
     }
 
+    public ArrayList<Message> getAllMessage() {
+        ArrayList<Message> messages = new ArrayList<Message>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from " + MESSAGE_TABLE_NAME, null);
+        res.moveToFirst();
+
+        while (!res.isAfterLast()) {
+            Phone phone = new Phone();
+            phone.setId(res.getInt(res.getColumnIndex(MESSAGE_COLUMN_PHONE)));
+
+            Message message = new Message();
+            message.setNumero(res.getString(res.getColumnIndex(MESSAGE_COLUMN_NUMERO)));
+            message.setType(res.getInt(res.getColumnIndex(MESSAGE_COLUMN_TYPE)));
+            message.setDate(res.getInt(res.getColumnIndex(MESSAGE_COLUMN_DATE_MESSAGE)));
+            message.setContenu(res.getString(res.getColumnIndex(MESSAGE_COLUMN_CONTENU)));
+            message.setPhone(phone);
+
+            messages.add(message);
+
+            res.moveToNext();
+        }
+
+        return messages;
+    }
+
     public boolean insertContact(Contact contact) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -182,6 +238,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(POSITION_GPS_COLUMN_DATE_POSITION, position.getDatePosition());
         contentValues.put(POSITION_GPS_COLUMN_PHONE, position.getPhone().getId());
         db.insert(POSITION_GPS_TABLE_NAME, null, contentValues);
+        return true;
+    }
+
+    public boolean insertMessage(Message message) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MESSAGE_COLUMN_NUMERO, message.getNumero());
+        contentValues.put(MESSAGE_COLUMN_TYPE, message.getType());
+        contentValues.put(MESSAGE_COLUMN_DATE_MESSAGE, message.getDate());
+        contentValues.put(MESSAGE_COLUMN_CONTENU, message.getContenu());
+        contentValues.put(MESSAGE_COLUMN_PHONE, message.getPhone().getId());
+        db.insert(MESSAGE_TABLE_NAME, null, contentValues);
         return true;
     }
 

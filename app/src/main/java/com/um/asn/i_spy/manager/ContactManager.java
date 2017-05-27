@@ -178,10 +178,4 @@ public class ContactManager {
         }
     }
 
-    public void insertLocal() {
-        DatabaseHelper myBD = new DatabaseHelper(this.context);
-        myBD.insertContact(this.contacts.get(0));
-        System.out.println("Contact saved local (" + myBD.getAllContact().size() + ")");
-    }
-
 }
