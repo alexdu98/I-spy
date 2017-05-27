@@ -1,4 +1,4 @@
-package com.um.asn.i_spy.manager;
+package com.um.asn.i_spy.managers;
 
 
 import android.content.ContentResolver;

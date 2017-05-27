@@ -11,7 +11,7 @@ import android.support.annotation.Nullable;
 import com.um.asn.i_spy.listeners.ConnectionListener;
 import com.um.asn.i_spy.listeners.MessageReceiveListener;
 import com.um.asn.i_spy.listeners.MessageSendListner;
-import com.um.asn.i_spy.manager.PositionGPSManager;
+import com.um.asn.i_spy.managers.PositionGPSManager;
 import com.um.asn.i_spy.models.Phone;
 
 public class SlaveService extends IntentService {

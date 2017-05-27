@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
 
-import com.um.asn.i_spy.manager.MessageManager;
+import com.um.asn.i_spy.managers.MessageManager;
 import com.um.asn.i_spy.models.Message;
 import com.um.asn.i_spy.models.Phone;
 

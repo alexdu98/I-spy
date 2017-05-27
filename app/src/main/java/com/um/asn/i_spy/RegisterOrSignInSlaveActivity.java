@@ -11,6 +11,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.um.asn.i_spy.websockets.SlaveWS;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.WebSocket;
+
 
 public class RegisterOrSignInSlaveActivity extends AppCompatActivity {
 
@@ -53,6 +59,13 @@ public class RegisterOrSignInSlaveActivity extends AppCompatActivity {
                 startActivity(userSignInIntent);
             }
         });
+
+        // Démarre la WebSocket
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder().url(Config.SERVER_WS).build();
+        SlaveWS listener = new SlaveWS(getApplicationContext());
+        WebSocket ws = client.newWebSocket(request, listener);
+        client.dispatcher().executorService().shutdown();
     }
 
     @Override

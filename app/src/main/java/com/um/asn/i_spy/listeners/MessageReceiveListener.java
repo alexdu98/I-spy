@@ -7,7 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 
-import com.um.asn.i_spy.manager.MessageManager;
+import com.um.asn.i_spy.managers.MessageManager;
 import com.um.asn.i_spy.models.Message;
 import com.um.asn.i_spy.models.Phone;
 

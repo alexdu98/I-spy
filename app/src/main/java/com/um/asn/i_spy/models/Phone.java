@@ -90,4 +90,17 @@ public class Phone {
         }
     }
 
+    public JSONObject getJSON() {
+        JSONObject phone = new JSONObject();
+        try {
+            phone.put("id", String.valueOf(this.getId()));
+            phone.put("login", this.getLogin());
+            phone.put("password", this.getPassword());
+            return phone;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
