@@ -45,8 +45,7 @@
             android:label="@string/registration" />
         <activity
             android:name=".ListSlavesActivity"
-            android:label="@string/title_activity_list_slaves"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_list_slaves" />
         <activity
             android:name=".SignInMasterActivity"
             android:label="@string/connection" />
@@ -86,7 +85,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="AIzaSyA2Q0_n6RFtcOiEwPurpAKu9_G4KfAHzC0" />
 
     </application>
 

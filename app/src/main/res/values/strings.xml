@@ -21,22 +21,23 @@
     <string name="last_route">Dernier itinéraire</string>
 
     <!-- USER MESSAGES -->
-    <string name="message_last_location_unknown">Dernière position inconnue.</string>
+    <string name="message_map_not_ready">La carte n\'est pas encore prête</string>
+    <string name="message_last_location_unknown">Dernière position inconnue</string>
     <string name="message_missing_permissions">
         Permissions manquantes.
-        L\'application peut ne pas fonctionner correctement.
+        L\'application peut ne pas fonctionner correctement
     </string>
     <string name="message_phone_doesnt_exists">Téléphone non répertorié</string>
-    <string name="message_phone_already_in_list">Téléphone déjà enregistré.</string>
-    <string name="message_no_phones_registered">Aucun téléphone à inspecter.</string>
+    <string name="message_phone_already_in_list">Téléphone déjà enregistré</string>
+    <string name="message_no_phones_registered">Aucun téléphone à inspecter</string>
     <string name="message_register_error">L\'inscription a échoué, veuillez réessayer !</string>
-    <string name="message_sign_in_failed">Connexion échouée. Mauvais identifiant ou mot de passe.</string>
-    <string name="message_mail_already_exists">Email déjà utilisé.</string>
-    <string name="message_login_already_exists">Identifiant déjà utilisé.</string>
+    <string name="message_sign_in_failed">Connexion échouée. Mauvais identifiant ou mot de passe</string>
+    <string name="message_mail_already_exists">Email déjà utilisé</string>
+    <string name="message_login_already_exists">Identifiant déjà utilisé</string>
     <string name="message_internet_connection_error">Connexion internet inexistante</string>
     <string name="message_missing_user_info">Informations utilisateur introuvables. Veuillez vous enregistrer d\'abord !</string>
     <string name="message_missing_mandatory_fields">Veuillez remplir tous les champs obligatoires !</string>
-    <string name="message_internal_server_error">Le serveur a rencontré une erreur. Veuillez réessayer l\'opération.</string>
+    <string name="message_internal_server_error">Le serveur a rencontré une erreur. Veuillez réessayer l\'opération</string>
 
     <!-- TITLES AND LABELS -->
     <string name="slave_menu_label">Actions pour</string>
@@ -44,7 +45,7 @@
     <string name="choose_mode_activity_label">Mode d\'utilisation de ce téléphone</string>
     <string name="register_slave_activity_label">Enregistrer l\'esclave</string>
     <string name="add_slave_activity_label">Ajouter un téléphone</string>
-    <string name="title_activity_list_slaves">Liste des esclaves</string>
+    <string name="title_activity_list_slaves">Liste des téléphones</string>
     <string name="locate_slave_label">Localisation de</string>
     <string name="for_phone">Pour ce téléphone</string>
     <string name="title_activity_maps">Map</string>
