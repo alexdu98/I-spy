@@ -13,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.um.asn.i_spy.http_methods.HttpPostTask;
-import com.um.asn.i_spy.websockets.MasterWS;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,10 +21,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.WebSocket;
 
 public class RegisterMasterActivity extends AppCompatActivity {
 
@@ -110,13 +105,6 @@ public class RegisterMasterActivity extends AppCompatActivity {
 
                                 FileOutputStream userInfoStream = openFileOutput(Config.USER_INFO, Context.MODE_PRIVATE);
                                 userInfoStream.write(userInfoJSON.toString().getBytes());
-
-                                // Démarre la WebSocket
-                                OkHttpClient client = new OkHttpClient();
-                                Request request = new Request.Builder().url(Config.SERVER_WS).build();
-                                MasterWS listener = new MasterWS(getApplicationContext());
-                                WebSocket ws = client.newWebSocket(request, listener);
-                                client.dispatcher().executorService().shutdown();
 
                                 Intent intent = new Intent(RegisterMasterActivity.this, ListSlavesActivity.class);
                                 startActivity(intent);
