@@ -9,11 +9,18 @@ public class Message {
     private String numero;
     private int type;
     private int date;
+    private String formattedDate;
     private String contenu;
     private Phone phone;
     private Contact contact;
 
     public Message() {
+    }
+
+    public Message(int type, String formattedDate, String contenu) {
+        this.type = type;
+        this.formattedDate = formattedDate;
+        this.contenu = contenu;
     }
 
     public Message(String numero, int type, int date, String contenu, Phone phone) {

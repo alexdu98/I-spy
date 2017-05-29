@@ -13,8 +13,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
+import com.um.asn.i_spy.models.Contact;
 import com.um.asn.i_spy.models.Phone;
 import com.um.asn.i_spy.models.User;
 
@@ -138,8 +138,9 @@ public class SlaveMainActivity extends AppCompatActivity
      */
     private void selectItem(int position) {
 
-        // Create a new fragment and specify the planet to show based on position
+        // Create a new fragment
         Fragment fragment = null;
+
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getFragmentManager();
 
@@ -188,11 +189,40 @@ public class SlaveMainActivity extends AppCompatActivity
         slaveMenuDrawerLayout.closeDrawer(slaveMenuListView);
     }
 
+    /**
+     * fonction de callback pour le lancement de ShowSlaveContactMessagesFragment
+     *
+     * @param contact, contact pour lequel afficher les messages
+     */
     @Override
-    public void onContactSelected(int contactId) {
+    public void onContactSelected(Contact contact) {
 
-        Toast.makeText(this, "Affichage des messages du contact id = " + contactId, Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "Affichage des messages du contact id = " + contactId, Toast.LENGTH_LONG).show();
         // Call to showMessagesFragment
+
+        // Create a new fragment
+        Fragment fragment = new ShowSlaveContactMessagesFragment();
+
+        // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getFragmentManager();
+
+        Bundle args = new Bundle();
+        args.putInt("phone_id", targetPhone.getId());
+        args.putString("phone_login", targetPhone.getLogin());
+
+        args.putInt("user_id", currentUser.getId());
+        args.putString("user_mail", currentUser.getMail());
+        args.putString("user_password", currentUser.getPassword());
+
+        args.putInt("contact_id", contact.getId());
+        args.putString("contact_name", contact.getNom());
+        args.putString("contact_phone_number", contact.getNumero());
+
+        // Remplace le contenu de content_frame par la layout associée au fragment
+        fragment.setArguments(args);
+        fragmentManager.beginTransaction()
+                .replace(R.id.slave_main_content_frame, fragment)
+                .commit();
     }
 
     private class OnSlaveMenuItemClickListener implements ListView.OnItemClickListener {

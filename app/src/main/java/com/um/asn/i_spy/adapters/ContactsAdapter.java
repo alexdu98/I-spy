@@ -12,10 +12,6 @@ import com.um.asn.i_spy.models.Contact;
 
 import java.util.ArrayList;
 
-/**
- * Created by Vincent on 27/05/2017.
- */
-
 public class ContactsAdapter extends ArrayAdapter<Contact> {
 
     public ContactsAdapter(Context context, ArrayList<Contact> contacts) {

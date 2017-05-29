@@ -82,7 +82,7 @@ public class ShowSlaveContactsFragment extends Fragment {
 
                 if (contactsArray.length() == 0) {
 
-                    showSlaveContactsTextView.setText(R.string.message_no_phones_registered);
+                    showSlaveContactsTextView.setText(R.string.message_no_contact);
                     showSlaveContactsTextView.setVisibility(View.VISIBLE);
 
                 } else {
@@ -107,7 +107,13 @@ public class ShowSlaveContactsFragment extends Fragment {
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                             TextView selectedContactId = (TextView) view.findViewById(R.id.contact_id);
-                            contactSelectedCallback.onContactSelected(Integer.valueOf(selectedContactId.getText().toString()));
+                            TextView selectedContactName = (TextView) view.findViewById(R.id.contact_name);
+                            TextView selectedContactPhoneNumber = (TextView) view.findViewById(R.id.contact_phone_number);
+
+                            contactSelectedCallback.onContactSelected(new Contact(
+                                    Integer.valueOf(selectedContactId.getText().toString()),
+                                    selectedContactName.getText().toString(),
+                                    selectedContactPhoneNumber.getText().toString()));
                         }
                     });
                 }
@@ -147,6 +153,6 @@ public class ShowSlaveContactsFragment extends Fragment {
 
     // Container Activity must implement this interface
     public interface OnContactSelectedListener {
-        void onContactSelected(int contactId);
+        void onContactSelected(Contact contact);
     }
 }
