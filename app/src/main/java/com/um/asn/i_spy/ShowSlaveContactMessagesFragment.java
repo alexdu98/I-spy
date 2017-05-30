@@ -54,7 +54,7 @@ public class ShowSlaveContactMessagesFragment extends Fragment {
                 infosFromActivity.getString("contact_name"),
                 infosFromActivity.getString("contact_phone_number"));
 
-        getActivity().setTitle(targetContact.getNom() + " " + targetContact.getNumero());
+        getActivity().setTitle(targetContact.getNom());
     }
 
     @Nullable

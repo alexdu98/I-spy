@@ -45,13 +45,16 @@ public class MessagesAdapter extends ArrayAdapter<Message> {
 
 
         if (message.getType() == 1) {
+
             lp.addRule(RelativeLayout.ALIGN_PARENT_START);
-            lp.setMargins(11, 11, 11, 11);
+            messageTextView.setBackgroundColor(getContext().getResources().getColor(R.color.greenAlex));
         } else {
+
             lp.addRule(RelativeLayout.ALIGN_PARENT_END);
+            messageTextView.setBackgroundColor(getContext().getResources().getColor(R.color.yellowAlex));
         }
 
-        lp.setMargins(11, 11, 11, 11);
+        lp.setMargins(18, 18, 18, 18);
         messageTextView.setLayoutParams(lp);
 
         return convertView;

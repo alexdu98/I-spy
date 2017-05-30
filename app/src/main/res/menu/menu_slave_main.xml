@@ -8,11 +8,4 @@
         android:title="@string/menu_item_show_drawer"
         app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/menu_item_to_slaves_list"
-        android:icon="@android:drawable/ic_menu_revert"
-        android:title="@string/menu_item_list_slaves"
-        app:showAsAction="ifRoom" />
-
-
 </menu>

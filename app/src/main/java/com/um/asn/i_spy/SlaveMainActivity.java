@@ -122,12 +122,6 @@ public class SlaveMainActivity extends AppCompatActivity
                     slaveMenuDrawerLayout.closeDrawer(slaveMenuListView);
                 else slaveMenuDrawerLayout.openDrawer(slaveMenuListView);
                 return true;
-
-
-            case R.id.menu_item_to_slaves_list:
-                Intent toSlavesListIntent = new Intent(this, ListSlavesActivity.class);
-                startActivity(toSlavesListIntent);
-                return true;
         }
 
         return super.onOptionsItemSelected(item);
