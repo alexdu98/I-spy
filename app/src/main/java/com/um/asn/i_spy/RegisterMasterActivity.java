@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.um.asn.i_spy.http_methods.HttpPostTask;
+import com.um.asn.i_spy.websockets.MasterWS;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,6 +22,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.WebSocket;
 
 public class RegisterMasterActivity extends AppCompatActivity {
 
@@ -99,6 +104,16 @@ public class RegisterMasterActivity extends AppCompatActivity {
                                 userInfoJSON.put("id", insertedId.get("id"));
                                 userInfoJSON.put("mail", mailAddress.getText().toString());
                                 userInfoJSON.put("password", password.getText().toString()); // Penser a encrypter le mot de passe
+
+                                // Desactivation de la progress bar en cercle et apparition du bouton
+                                v.setVisibility(View.VISIBLE);
+                                registerMasterProgressBar.setVisibility(View.INVISIBLE);
+
+                                OkHttpClient client = new OkHttpClient();
+                                Request request = new Request.Builder().url(Config.SERVER_WS).build();
+                                MasterWS listener = new MasterWS(getApplicationContext(), userInfoJSON);
+                                WebSocket ws = client.newWebSocket(request, listener);
+                                client.dispatcher().executorService().shutdown();
 
                                 // Supprime le fichier user info si il existe
                                 deleteFile(Config.USER_INFO);

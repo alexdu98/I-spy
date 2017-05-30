@@ -18,7 +18,6 @@ import com.um.asn.i_spy.adapters.PhonesAdapter;
 import com.um.asn.i_spy.http_methods.HttpGetTask;
 import com.um.asn.i_spy.models.Phone;
 import com.um.asn.i_spy.models.User;
-import com.um.asn.i_spy.websockets.MasterWS;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,10 +31,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.WebSocket;
-
 
 public class ListSlavesActivity extends AppCompatActivity {
 
@@ -46,13 +41,6 @@ public class ListSlavesActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Démarre la WebSocket
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder().url(Config.SERVER_WS).build();
-        MasterWS listener = new MasterWS(getApplicationContext(), this);
-        WebSocket ws = client.newWebSocket(request, listener);
-        client.dispatcher().executorService().shutdown();
 
         try {
 

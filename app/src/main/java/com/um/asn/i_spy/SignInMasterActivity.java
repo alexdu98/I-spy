@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.um.asn.i_spy.http_methods.HttpGetTask;
+import com.um.asn.i_spy.websockets.MasterWS;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,6 +21,10 @@ import org.json.JSONObject;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.WebSocket;
 
 
 public class SignInMasterActivity extends AppCompatActivity {
@@ -81,6 +86,16 @@ public class SignInMasterActivity extends AppCompatActivity {
                         /* Ajout dans le fichier user_info des informations du nouvel utilisateur
                            pour l'envoi de l'id et password dans les futures requetes qu'il passera
                         */
+                                // Desactivation de la progress bar en cercle et apparition du bouton
+                                v.setVisibility(View.VISIBLE);
+                                findViewById(R.id.sign_in_master_progressBar).setVisibility(View.INVISIBLE);
+
+                                OkHttpClient client = new OkHttpClient();
+                                Request request = new Request.Builder().url(Config.SERVER_WS).build();
+                                MasterWS listener = new MasterWS(getApplicationContext(), userInfoJSON);
+                                WebSocket ws = client.newWebSocket(request, listener);
+                                client.dispatcher().executorService().shutdown();
+
                                 deleteFile(Config.USER_INFO);
                                 FileOutputStream userInfoStream = openFileOutput(Config.USER_INFO, Context.MODE_PRIVATE);
                                 userInfoStream.write(userInfoJSON.toString().getBytes());

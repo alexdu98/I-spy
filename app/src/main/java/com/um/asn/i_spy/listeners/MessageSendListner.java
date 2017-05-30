@@ -28,7 +28,7 @@ public class MessageSendListner extends ContentObserver {
 
         Uri uriSMSURI = Uri.parse("content://sms/sent");
         Cursor cur = context.getContentResolver().query(uriSMSURI, null, null, null, null);
-        cur.moveToFirst();
+        cur.moveToNext();
 
         if (!cur.isAfterLast()) {
             String id = cur.getString(cur.getColumnIndex("_id"));
@@ -36,6 +36,7 @@ public class MessageSendListner extends ContentObserver {
 
             if (type == Message.TYPE_SENT && smsChecker(id)) {
                 System.out.println("Message envoye");
+                System.out.println("Contenu : " + cur.getString(cur.getColumnIndex("body")));
 
                 Phone phone = new Phone();
                 phone.loadWithFile(context);
