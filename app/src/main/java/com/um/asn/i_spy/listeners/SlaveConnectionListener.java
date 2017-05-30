@@ -17,7 +17,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.WebSocket;
 
-public class ConnectionListener extends BroadcastReceiver {
+public class SlaveConnectionListener extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent)

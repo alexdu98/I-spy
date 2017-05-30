@@ -92,7 +92,7 @@ public class SignInMasterActivity extends AppCompatActivity {
 
                                 OkHttpClient client = new OkHttpClient();
                                 Request request = new Request.Builder().url(Config.SERVER_WS).build();
-                                MasterWS listener = new MasterWS(getApplicationContext(), userInfoJSON);
+                                MasterWS listener = new MasterWS(getApplicationContext());
                                 WebSocket ws = client.newWebSocket(request, listener);
                                 client.dispatcher().executorService().shutdown();
 
