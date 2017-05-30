@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.um.asn.i_spy.http_methods.HttpPostTask;
-import com.um.asn.i_spy.websockets.MasterWS;
+import com.um.asn.i_spy.services.MasterService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,10 +22,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.WebSocket;
 
 public class RegisterMasterActivity extends AppCompatActivity {
 
@@ -109,17 +105,15 @@ public class RegisterMasterActivity extends AppCompatActivity {
                                 v.setVisibility(View.VISIBLE);
                                 registerMasterProgressBar.setVisibility(View.INVISIBLE);
 
-                                OkHttpClient client = new OkHttpClient();
-                                Request request = new Request.Builder().url(Config.SERVER_WS).build();
-                                MasterWS listener = new MasterWS(getApplicationContext());
-                                WebSocket ws = client.newWebSocket(request, listener);
-                                client.dispatcher().executorService().shutdown();
-
                                 // Supprime le fichier user info si il existe
                                 deleteFile(Config.USER_INFO);
 
                                 FileOutputStream userInfoStream = openFileOutput(Config.USER_INFO, Context.MODE_PRIVATE);
                                 userInfoStream.write(userInfoJSON.toString().getBytes());
+
+                                // Démarre le service
+                                Intent masterService = new Intent(RegisterMasterActivity.this, MasterService.class);
+                                startService(masterService);
 
                                 Intent intent = new Intent(RegisterMasterActivity.this, ListSlavesActivity.class);
                                 startActivity(intent);

@@ -6,7 +6,7 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.support.annotation.Nullable;
 
-import com.um.asn.i_spy.listeners.SlaveConnectionListener;
+import com.um.asn.i_spy.listeners.MasterConnectionListener;
 
 public class MasterService extends IntentService {
 
@@ -17,11 +17,9 @@ public class MasterService extends IntentService {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
+        System.out.println("Service Master...");
         // Pour enregistrer l'eventListner sur les changements de connexion (car deprecated dans Nougat)
-        registerReceiver(new SlaveConnectionListener(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-
-
+        registerReceiver(new MasterConnectionListener(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
         return START_STICKY;
     }
 

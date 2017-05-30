@@ -66,6 +66,11 @@
             android:enabled="true"
             android:exported="true" />
 
+        <service
+            android:name=".services.MasterService"
+            android:enabled="true"
+            android:exported="true" />
+
         <receiver
             android:name=".listeners.BootListener"
             android:enabled="true"

@@ -20,7 +20,7 @@ public class MasterConnectionListener extends BroadcastReceiver {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
         if (activeNetInfo != null && activeNetInfo.isConnected()) {
-            System.out.println("Connected !");
+            System.out.println("Master Connected !");
 
             // Démarre la WebSocket
             OkHttpClient client = new OkHttpClient();
@@ -30,7 +30,7 @@ public class MasterConnectionListener extends BroadcastReceiver {
             client.dispatcher().executorService().shutdown();
 
         } else {
-            System.out.println("Disconnected !");
+            System.out.println("Master Disconnected !");
         }
     }
 
