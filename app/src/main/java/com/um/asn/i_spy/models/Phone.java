@@ -62,7 +62,7 @@ public class Phone {
         return id + " " + " " + login + " " + password;
     }
 
-    public void loadWithFile(Context context) {
+    public boolean loadWithFile(Context context) {
         try {
             FileInputStream file = context.openFileInput(Config.PHONE_INFO);
             InputStreamReader inputStreamReader = new InputStreamReader(file);
@@ -81,6 +81,8 @@ public class Phone {
             this.login = (String) jo.get("login");
             this.password = (String) jo.get("password");
 
+            return true;
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -88,6 +90,7 @@ public class Phone {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     public JSONObject getJSON() {
