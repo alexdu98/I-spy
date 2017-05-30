@@ -96,7 +96,7 @@ public class RegisterMasterActivity extends AppCompatActivity {
                                 */
 
                                 JSONObject userInfoJSON = new JSONObject();
-                                userInfoJSON.put("user_id", insertedId.get("id"));
+                                userInfoJSON.put("id", insertedId.get("id"));
                                 userInfoJSON.put("mail", mailAddress.getText().toString());
                                 userInfoJSON.put("password", password.getText().toString()); // Penser a encrypter le mot de passe
 

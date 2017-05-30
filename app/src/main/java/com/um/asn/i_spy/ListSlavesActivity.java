@@ -90,6 +90,7 @@ public class ListSlavesActivity extends AppCompatActivity {
             currentUser = new User(Integer.valueOf(userInfoJSON.get("id").toString()),
                     userInfoJSON.get("mail").toString(), userInfoJSON.get("password").toString());
 
+
             String url = Config.SERVER_DOMAIN + "user/" + currentUser.getId() + "/phones";
 
             // Construction de l'url REST
@@ -115,6 +116,7 @@ public class ListSlavesActivity extends AppCompatActivity {
                     TextView listSlavesMessage = (TextView) findViewById(R.id.list_slaves_message);
                     listSlavesMessage.setText(R.string.message_no_phones_registered);
                     listSlavesMessage.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.INVISIBLE);
 
                 } else {
 

@@ -55,7 +55,7 @@ public class AddSlaveActivity extends AppCompatActivity {
                         BufferedReader userInfoBR = new BufferedReader(new InputStreamReader(userInfoIS));
                         JSONObject userInfoJSON = new JSONObject(userInfoBR.readLine());
 
-                        String userId = userInfoJSON.get("id").toString();
+                        String userId = String.valueOf(userInfoJSON.get("id"));
                         String userMail = userInfoJSON.get("mail").toString();
                         String userPassword = userInfoJSON.get("password").toString();
 
